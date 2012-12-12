@@ -1,8 +1,9 @@
-# source "http://rubygems.org"
+source "http://rubygems.org"
 
-# Declare your gem's dependencies in bodega.gemspec.
-# Bundler will treat runtime dependencies like base dependencies, and
-# development dependencies will be added by default to the :development group.
-gemspec
+group :development, :test do
+  gem 'jeweler', '1.8.4'
+end
 
-# gem 'configurator', :path => '~/Code/configurator'
+group :test do
+  gem 'rspec-rails'
+end
