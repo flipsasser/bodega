@@ -1,0 +1,8 @@
+Description:
+    Adds Bodega::Product columns to an already-created model. Use this to make any model purchasable through Bodega.
+
+Example:
+    rails generate bodega:productize skateboards
+
+    This will create:
+        db/migrate/XXXXXX_bodegaize_skateboards.rb

@@ -1,0 +1,9 @@
+Description:
+    Generate Bodega::Product compliant model
+
+Example:
+    rails generate bodega:product skateboard
+
+    This will create:
+        app/models/skateboard.rb
+        db/migrate/XXXXXX_create_skateboards.rb
