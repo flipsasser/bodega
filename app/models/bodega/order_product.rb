@@ -5,7 +5,7 @@ module Bodega
     belongs_to :order, class_name: 'Bodega::Order'
     belongs_to :product, polymorphic: true
 
-    delegate :name, :price, to: :product
+    delegate :price, to: :product
 
     monetize :subtotal
     monetize :tax
@@ -14,6 +14,22 @@ module Bodega
     validates_numericality_of :quantity, allow_blank: true, minimum: 1
     validates_presence_of :quantity
 
+    def decorated_product
+      product.respond_to?(:decorator) ? product.decorator.decorate(product) : product
+    end
+
+    def name
+      decorated_product.respond_to?(:name) ? decorated_product.name : product.to_s
+    end
+
+    def quantity_and_name
+      "#{quantity} x #{name.pluralize(quantity)}"
+    end
+
+    def subtotal
+      read_attribute(:subtotal) || price * quantity
+    end
+ 
     protected
     def calculate_tax
       self.tax = 0

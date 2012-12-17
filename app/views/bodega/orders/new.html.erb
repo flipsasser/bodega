@@ -1,11 +1,14 @@
 <%= form_for(current_order, url: root_path) do |form| %>
   <table id="bodega-cart">
     <thead>
-      <tr><th><%= Bodega.config.product_name.titleize %></th><th>Price</th><th>Quantity</th><th colspan="2">Total</th></tr>
+      <tr><th class="product-name" colspan="2"><%= Bodega.config.product_name.titleize %></th><th class="price">Price</th><th class="total">Total</th></tr>
     </thead>
     <tbody>
       <% current_order.order_products.each do |order_product| -%>
       <tr>
+        <td class="quantity-field">
+          <%= number_field_tag 'products[][quantity]', order_product.quantity, class: 'quantity', max: order_product.product.max_for_sale, min: 1 %>
+        </td>
         <td class="product-name">
           <%= order_product.name %>
           <%= hidden_field_tag 'products[][type]', order_product.product_type %>
@@ -14,14 +17,8 @@
         <td class="price">
           $<%= order_product.price %>
         </td>
-        <td class="quantity-field">
-          <%= number_field_tag 'products[][quantity]', order_product.quantity, class: 'quantity', max: order_product.product.max_for_sale, min: 1 %>
-        </td>
         <td class="subtotal">
           $<%= order_product.subtotal %>
-        </td>
-        <td class="remove">
-          x
         </td>
       </tr>
       <% end -%>
