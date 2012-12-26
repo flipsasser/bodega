@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
   s.date = "2012-12-26"
-  s.description = "TODO: longer description of your gem"
+  s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
     "README.md"
@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
     "app/models/bodega/order_product.rb",
     "app/models/bodega/product.rb",
     "app/views/bodega/orders/new.html.erb",
+    "app/views/bodega/orders/show.html.erb",
     "bodega.gemspec",
     "config/routes.rb",
     "db/migrate/20121111170337_create_bodega_orders.rb",
@@ -42,6 +43,9 @@ Gem::Specification.new do |s|
     "lib/bodega.rb",
     "lib/bodega/engine.rb",
     "lib/bodega/monetize.rb",
+    "lib/bodega/payment_method.rb",
+    "lib/bodega/payment_method/base.rb",
+    "lib/bodega/payment_method/paypal.rb",
     "lib/bodega/version.rb",
     "lib/generators/bodega/install/install_generator.rb",
     "lib/generators/bodega/product/USAGE",
@@ -57,7 +61,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
-  s.summary = "TODO: one-line summary of your gem"
+  s.summary = "Bodega adds checkout logic to any model in your app!"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

@@ -19,8 +19,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "bodega"
   gem.homepage = "http://github.com/flipsasser/bodega"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Bodega adds checkout logic to any model in your app!}
+  gem.description = %Q{Bodega adds checkout logic to any model in your app!}
   gem.email = "flip@x451.com"
   gem.authors = ["Flip Sasser"]
   # dependencies defined in Gemfile
