@@ -3,6 +3,13 @@ module Bodega
     protected
     def current_order
       @current_order ||= Bodega::Order.new.tap do |order|
+        #begin
+          if Bodega.config.customer_method
+            order.customer = send(Bodega.config.customer_method)
+          end
+        #rescue NoMethodError
+          raise "Please configure Bodega.config.customer_method to point to a valid method for accessing a customer record (default: current_user)"
+        #end
         order.order_products = current_products.map do |type, product|
           product = product.symbolize_keys
           OrderProduct.new do |order_product|

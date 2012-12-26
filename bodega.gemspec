@@ -5,17 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.0.0"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2012-12-12"
+  s.date = "2012-12-26"
   s.description = "TODO: longer description of your gem"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
     "README.md"
   ]
   s.files = [
+    ".rspec",
+    ".rvmrc",
     "Gemfile",
     "Gemfile.lock",
     "MIT-LICENSE",
@@ -38,12 +40,9 @@ Gem::Specification.new do |s|
     "db/migrate/20121111170337_create_bodega_orders.rb",
     "db/migrate/20121111170420_create_bodega_order_products.rb",
     "lib/bodega.rb",
-    "lib/bodega/action_controller.rb",
     "lib/bodega/engine.rb",
     "lib/bodega/monetize.rb",
     "lib/bodega/version.rb",
-    "lib/configurator.rb",
-    "lib/configurator/configuration.rb",
     "lib/generators/bodega/install/install_generator.rb",
     "lib/generators/bodega/product/USAGE",
     "lib/generators/bodega/product/product_generator.rb",
@@ -64,15 +63,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<pgcrypto>, [">= 0"])
+      s.add_runtime_dependency(%q<configurator2>, [">= 0.1.1"])
       s.add_development_dependency(%q<jeweler>, ["= 1.8.4"])
+      s.add_development_dependency(%q<pry>, [">= 0"])
     else
-      s.add_dependency(%q<pgcrypto>, [">= 0"])
+      s.add_dependency(%q<configurator2>, [">= 0.1.1"])
       s.add_dependency(%q<jeweler>, ["= 1.8.4"])
+      s.add_dependency(%q<pry>, [">= 0"])
     end
   else
-    s.add_dependency(%q<pgcrypto>, [">= 0"])
+    s.add_dependency(%q<configurator2>, [">= 0.1.1"])
     s.add_dependency(%q<jeweler>, ["= 1.8.4"])
+    s.add_dependency(%q<pry>, [">= 0"])
   end
 end
 

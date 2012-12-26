@@ -29,7 +29,11 @@ module Bodega
     def subtotal
       read_attribute(:subtotal) || price * quantity
     end
- 
+
+    def total
+      read_attribute(:total) || subtotal + calculate_tax
+    end
+
     protected
     def calculate_tax
       self.tax = 0
