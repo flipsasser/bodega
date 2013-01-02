@@ -1,1 +1,22 @@
-<%= @order.inspect %>
+<h2>Order #<%= @order.identifier %></h2>
+<table id="bodega-cart">
+  <thead>
+    <tr><th class="product-name"><%= Bodega.config.product_name.titleize %></th><th class="price">Price</th><th class="total">Total</th></tr>
+  </thead>
+  <tbody>
+    <% @order.order_products.each do |order_product| -%>
+    <tr>
+      <td class="product-name">
+        <%= order_product.quantity %> x
+        <%= order_product.name %>
+      </td>
+      <td class="price">
+        $<%= order_product.price %>
+      </td>
+      <td class="subtotal">
+        $<%= order_product.subtotal %>
+      </td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
