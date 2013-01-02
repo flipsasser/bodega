@@ -22,7 +22,7 @@ module Bodega
 
     protected
     def set_identifier
-      self.identifier = "#{Time.now.to_i}--#{rand(12)}"
+      self.identifier = self.class.count.succ.to_s(36)
     end
   end
 end

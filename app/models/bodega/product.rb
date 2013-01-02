@@ -10,7 +10,14 @@ module Bodega
         monetize :price
 
         scope :for_sale, lambda {
-          where('for_sale IS TRUE OR ((for_sale_at >= :today OR for_sale_at IS NULL) AND (not_for_sale_at <= :today OR not_for_sale_at IS NULL))', today: Date.today)
+          where %[
+            for_sale IS TRUE OR
+            (
+              (for_sale_at >= :today OR for_sale_at IS NULL) AND
+              (not_for_sale_at <= :today OR not_for_sale_at IS NULL) AND
+              (for_sale_at IS NULL AND not_for_sale_at IS NULL) IS NOT TRUE
+            )
+          ], today: Date.today
         }
 
         # TODO: Get this to use a regular JOIN

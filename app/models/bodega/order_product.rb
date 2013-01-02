@@ -2,10 +2,12 @@ module Bodega
   class OrderProduct < ActiveRecord::Base
     extend Bodega::Monetize
 
+    after_save :update_stock
+
     belongs_to :order, class_name: 'Bodega::Order'
     belongs_to :product, polymorphic: true
 
-    delegate :price, to: :product
+    delegate :keep_stock?, :price, to: :product
 
     monetize :subtotal
     monetize :tax
@@ -16,6 +18,10 @@ module Bodega
 
     def decorated_product
       product.respond_to?(:decorator) ? product.decorator.decorate(product) : product
+    end
+
+    def identifier
+      "#{product_type}.#{product_id}"
     end
 
     def name
@@ -42,6 +48,13 @@ module Bodega
     def calculate_total
       self.subtotal = price * quantity
       self.total = subtotal + calculate_tax
+    end
+
+    def update_stock
+      if keep_stock?
+        product.number_in_stock = product.number_in_stock - quantity
+        product.save(validate: false)
+      end
     end
   end
 end
