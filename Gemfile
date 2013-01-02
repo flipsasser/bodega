@@ -1,6 +1,6 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem 'configurator2', '>= 0.1.1'
+gem 'configurator2', '>= 0.1.2'
 
 group :development, :test do
   gem 'jeweler', '1.8.4'
