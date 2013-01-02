@@ -5,6 +5,7 @@ Bodega::Engine.routes.draw do
 
   # Add products to an order
   post :add, to: 'orders#add'
+  get 'remove/:product_id', as: :remove, constraints: {product_id: /.+\.\d+/}, to: 'orders#remove'
 
   # Processing orders
   get  :complete, to: 'orders#complete'

@@ -1,6 +1,5 @@
 class Bodega::OrdersController < ApplicationController
   helper 'bodega/cart'
-  include Bodega::CartHelper
   include Bodega::PaymentMethod
 
   before_filter :find_order, only: [:show, :update]
@@ -15,6 +14,7 @@ class Bodega::OrdersController < ApplicationController
   def complete
     current_order.payment_id = payment_method.complete!
     current_order.save!
+    current_products.empty!
     redirect_to order_path(current_order)
   end
 
@@ -29,23 +29,31 @@ class Bodega::OrdersController < ApplicationController
     end
   end
 
-  protected
-  def find_order
-    raise ActiveRecord::NotFound unless @order = Bodega::Order.where(id: params[:order_id] || params[:id]).first
+  def remove
+    current_products.delete params[:product_id]
+    redirect_to :back
   end
 
-  def update_cart(product)
-    product_id = "#{product[:type]}.#{product[:id]}"
-    if product[:remove]
+  protected
+  def find_order
+    raise ActiveRecord::RecordNotFound unless @order = Bodega::Order.where(identifier: params[:order_id] || params[:id]).first
+  end
+
+  def update_cart(product_hash)
+    product_id = "#{product_hash[:type]}.#{product_hash[:id]}"
+    if product_hash[:remove]
       current_products.delete product_id
     else
-      if current = current_products[product_id]
-        current_quantity = current[:quantity].to_i
+      if current_product = current_products[product_id]
+        current_quantity = current_product[:quantity].to_i
       else
         current_quantity = 0
       end
-      new_quantity = product[:quantity] ? product[:quantity] : current_quantity + 1
-      current_products[product_id] = product.merge(quantity: new_quantity)
+      new_quantity = product_hash[:quantity] ? product_hash[:quantity].to_i : current_quantity + 1
+      if product = product_hash[:type].constantize.where(id: product_hash[:id], keep_stock: true).first
+        new_quantity = [product.number_in_stock, new_quantity].min
+      end
+      current_products[product_id] = product_hash.merge(quantity: new_quantity)
     end
   end
 end
