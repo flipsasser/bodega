@@ -4,16 +4,12 @@ module Bodega
 
     initializer "bodega.hookses" do
       ActiveSupport.on_load :action_controller do
-        #require 'bodega/action_controller'
+        helper 'bodega/cart'
         include Bodega::CartHelper
       end
 
       ActiveSupport.on_load :active_record do
         require 'bodega/monetize'
-      end
-
-      ActiveSupport.on_load :paypal_express do
-        raise 'w0tf'
       end
     end
   end
