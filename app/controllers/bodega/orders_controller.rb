@@ -13,7 +13,7 @@ class Bodega::OrdersController < ApplicationController
 
   def complete
     if current_order.finalize!(payment_method)
-      current_products.empty!
+      current_products.clear
       redirect_to order_path(current_order)
     else
       flash[:error] = "There was a problem processing this order. Your account has not been charged."
