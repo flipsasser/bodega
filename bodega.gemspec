@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-01-02"
+  s.date = "2013-01-07"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
     "db/migrate/20121111170420_create_bodega_order_products.rb",
     "lib/bodega.rb",
     "lib/bodega/engine.rb",
-    "lib/bodega/monetize.rb",
     "lib/bodega/payment_method.rb",
     "lib/bodega/payment_method/base.rb",
     "lib/bodega/payment_method/paypal.rb",
@@ -66,15 +65,18 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_runtime_dependency(%q<money-rails>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["= 1.8.4"])
       s.add_development_dependency(%q<pry>, [">= 0"])
     else
       s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_dependency(%q<money-rails>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["= 1.8.4"])
       s.add_dependency(%q<pry>, [">= 0"])
     end
   else
     s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+    s.add_dependency(%q<money-rails>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["= 1.8.4"])
     s.add_dependency(%q<pry>, [">= 0"])
   end
