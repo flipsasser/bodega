@@ -4,6 +4,7 @@ module Bodega
 
     initializer "bodega.hookses" do
       ActiveSupport.on_load :action_controller do
+        #helper 'bodega/application'
         helper 'bodega/cart'
         include Bodega::CartHelper
       end
