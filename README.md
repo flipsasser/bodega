@@ -16,9 +16,7 @@
 
 ## Configuration
 
-Bodega configuration happens inside of `config/initializers/bodega.rb`. This file is created when you run the installation generator.
-
-Bodega configuration happens in a block like you're used to:
+Bodega configuration happens inside of `config/initializers/bodega.rb`. This file is created when you run the installation generator. Configuration is done via a block, like you're used to:
 
 ```ruby
 Bodega.config do
@@ -27,13 +25,35 @@ Bodega.config do
 end
 ```
 
-Valid options are:
+### Options you can configure
 
-| Name | Default | Description |
-|:-|:-|:-|
-| customer_method | `:current_user` | The method on the controller used to associate a customer to an order |
-| payment_method | `:paypal` | The payment method used to process payments. Currently only PayPal is supported. |
-| test_mode | `true` in test or development modes; false otherwise | Whether or not to process payments in test mode. Useful for development. You can override this if you need to but generally you won't need to. |
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Default</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>customer_method</td>
+			<td>`:current_user`</td>
+			<td>The method on the controller used to associate a customer to an order</td>
+		</tr>
+		<tr>
+			<td>payment_method</td>
+			<td>`:paypal`</td>
+			<td>The method on the controller used to associate a customer to an order</td>
+		</tr>
+		<tr>
+			<td>test_mode</td>
+			<td>`true` in test or development modes; `false` otherwise</td>
+			<td>Whether or not to process payments in test mode. Useful for development. You can override this if you need to but generally you won't need to.</td>
+		</tr>
+	</tbody>
+</table>
+
 
 ### Sample configuration
 
