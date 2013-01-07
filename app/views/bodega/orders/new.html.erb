@@ -18,16 +18,21 @@
           <%= hidden_field_tag 'products[][id]', order_product.product_id %>
         </td>
         <td class="price">
-          <%= order_product.price %>
+          <%= humanized_money_with_symbol order_product.price %>
         </td>
         <td class="subtotal">
-          <%= order_product.subtotal.format %>
+          <%= humanized_money_with_symbol order_product.subtotal %>
         </td>
         <td class="remove">
           <%= link_to t('bodega.remove'), bodega.remove_path(product_id: order_product.identifier) %>
         </td>
       </tr>
       <% end -%>
+      <tr>
+        <td colspan="3"></td>
+        <td><%= humanized_money_with_symbol current_order.subtotal %></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <%= button_tag t('bodega.update_cart'), id: 'bodega-update', name: :update, value: 1 %>

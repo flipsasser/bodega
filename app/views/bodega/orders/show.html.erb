@@ -11,12 +11,17 @@
         <%= order_product.name %>
       </td>
       <td class="price">
-        $<%= order_product.price %>
+        <%= humanized_money_with_symbol order_product.price %>
       </td>
       <td class="subtotal">
-        $<%= order_product.subtotal %>
+        <%= humanized_money_with_symbol order_product.subtotal %>
       </td>
     </tr>
     <% end -%>
+    <tr>
+      <td colspan="2"></td>
+      <td><%= humanized_money_with_symbol @order.total %></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
