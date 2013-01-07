@@ -21,7 +21,7 @@ module Bodega
 
       protected
       def client
-        Paypal.sandbox! if Bodega.test_mode
+        ::Paypal.sandbox! if Bodega.config.test_mode
         @client ||= ::Paypal::Express::Request.new(
           username:  Bodega.config.paypal.username,
           password:  Bodega.config.paypal.password,
@@ -31,7 +31,7 @@ module Bodega
 
       def request
         @request ||= ::Paypal::Payment::Request.new(
-          amount: order.subtotal,
+          amount: order.subtotal.to_f,
           description: order.order_products.map(&:quantity_and_name).to_sentence
         )
       end
