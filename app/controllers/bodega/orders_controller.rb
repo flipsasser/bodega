@@ -12,10 +12,13 @@ class Bodega::OrdersController < ApplicationController
   end
 
   def complete
-    current_order.payment_id = payment_method.complete!
-    current_order.save!
-    current_products.empty!
-    redirect_to order_path(current_order)
+    if current_order.finalize!(payment_method)
+      current_products.empty!
+      redirect_to order_path(current_order)
+    else
+      flash[:error] = "There was a problem processing this order. Your account has not been charged."
+      redirect_to new_order_path
+    end
   end
 
   def create
