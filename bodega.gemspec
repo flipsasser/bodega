@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.2.3"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "app/assets/javascripts/bodega/application.js",
     "app/assets/stylesheets/bodega/application.css",
     "app/controllers/bodega/orders_controller.rb",
+    "app/helpers/bodega/application_helper.rb",
     "app/helpers/bodega/cart_helper.rb",
     "app/models/bodega/order.rb",
     "app/models/bodega/order_product.rb",
@@ -49,6 +50,7 @@ Gem::Specification.new do |s|
     "lib/generators/bodega/product/USAGE",
     "lib/generators/bodega/product/product_generator.rb",
     "lib/generators/bodega/product/templates/migration.rb",
+    "lib/generators/bodega/product/templates/model.rb",
     "lib/generators/bodega/productize/USAGE",
     "lib/generators/bodega/productize/productize_generator.rb",
     "lib/generators/bodega/productize/templates/migration.rb",
