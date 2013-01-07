@@ -1,10 +1,10 @@
 <% if current_products.empty? -%>
-<h3>Your cart is empty!</h3>
+<h3><%= t 'bodega.empty_cart' %></h3>
 <% else -%>
 <%= form_for(current_order, url: root_path) do |form| %>
   <table id="bodega-cart">
     <thead>
-      <tr><th class="product-name" colspan="2"><%= Bodega.config.product_name.titleize %></th><th class="price">Price</th><th class="total" colspan="2">Total</th></tr>
+      <tr><th class="product-name" colspan="2"><%= t 'bodega.product' %></th><th class="price"><%= t 'bodega.price' %></th><th class="total" colspan="2"><%= t 'bodega.total' %></th></tr>
     </thead>
     <tbody>
       <% current_order.order_products.each do |order_product| -%>
@@ -18,19 +18,19 @@
           <%= hidden_field_tag 'products[][id]', order_product.product_id %>
         </td>
         <td class="price">
-          $<%= order_product.price %>
+          <%= order_product.price %>
         </td>
         <td class="subtotal">
-          $<%= order_product.subtotal %>
+          <%= order_product.subtotal.format %>
         </td>
         <td class="remove">
-          <%= link_to 'x', bodega.remove_path(product_id: order_product.identifier) %>
+          <%= link_to t('bodega.remove'), bodega.remove_path(product_id: order_product.identifier) %>
         </td>
       </tr>
       <% end -%>
     </tbody>
   </table>
-  <%= button_tag 'Update Cart', name: :update, value: 1 %>
-  <%= button_tag 'Checkout', name: :checkout, value: 1 %>
+  <%= button_tag t('bodega.update_cart'), name: :update, value: 1 %>
+  <%= button_tag t('bodega.checkout'), name: :checkout, value: 1 %>
 <% end =%>
 <% end -%>

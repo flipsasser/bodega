@@ -9,7 +9,6 @@ module Bodega
       end
 
       ActiveSupport.on_load :active_record do
-        require 'bodega/monetize'
       end
     end
   end

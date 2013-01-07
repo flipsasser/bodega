@@ -12,7 +12,7 @@ module Bodega
       source_root File.expand_path('../templates', __FILE__)
 
       def copy_migration
-        migration_template("migration.rb", "db/migrate/bodegaize_#{product_name.tableize}")
+        migration_template("migration.rb", "db/migrate/productize_#{product_name.tableize}")
       end
     end
   end

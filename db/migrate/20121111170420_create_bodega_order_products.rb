@@ -4,10 +4,10 @@ class CreateBodegaOrderProducts < ActiveRecord::Migration
       t.belongs_to :order
       t.belongs_to :product, polymorphic: true
       t.integer :quantity
-      t.integer :price_in_cents
-      t.integer :subtotal_in_cents
-      t.integer :tax_in_cents
-      t.integer :total_in_cents
+      t.money :price
+      t.money :subtotal
+      t.money :tax
+      t.money :total
     end
   end
 end

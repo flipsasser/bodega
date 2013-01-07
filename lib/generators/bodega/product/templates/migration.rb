@@ -1,7 +1,7 @@
 class Create<%= product_name.classify.pluralize %> < ActiveRecord::Migration
   def change
     create_table :<%= product_name.tableize %> do
-      t.integer :price_in_cents
+      t.money :price
       t.boolean :for_sale, default: true
       t.boolean :keep_stock, default: false
       t.integer :number_in_stock

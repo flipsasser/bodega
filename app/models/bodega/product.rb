@@ -2,12 +2,10 @@ module Bodega
   module Product
     def self.included(base)
       base.class_eval do
-        extend Bodega::Monetize
-
         has_many :order_products, as: :product, class_name: 'Bodega::OrderProduct'
         has_many :orders, through: :order_products
 
-        monetize :price
+        monetize :price_cents
 
         scope :for_sale, lambda {
           where %[

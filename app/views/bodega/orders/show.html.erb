@@ -1,7 +1,7 @@
 <h2>Order #<%= @order.identifier %></h2>
 <table id="bodega-cart">
   <thead>
-    <tr><th class="product-name"><%= Bodega.config.product_name.titleize %></th><th class="price">Price</th><th class="total">Total</th></tr>
+    <tr><th class="product-name"><%= t 'bodega.product' %></th><th class="price"><%= t 'bodega.price' %></th><th class="total"><%= t 'bodega.total' %></th></tr>
   </thead>
   <tbody>
     <% @order.order_products.each do |order_product| -%>
