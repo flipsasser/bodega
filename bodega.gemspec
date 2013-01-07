@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
     "app/views/bodega/orders/new.html.erb",
     "app/views/bodega/orders/show.html.erb",
     "bodega.gemspec",
+    "config/locales/en.yml",
     "config/routes.rb",
     "db/migrate/20121111170337_create_bodega_orders.rb",
     "db/migrate/20121111170420_create_bodega_order_products.rb",
@@ -65,17 +66,20 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_runtime_dependency(%q<money-rails>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["= 1.8.4"])
       s.add_development_dependency(%q<pry>, [">= 0"])
     else
       s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_dependency(%q<i18n>, [">= 0"])
       s.add_dependency(%q<money-rails>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["= 1.8.4"])
       s.add_dependency(%q<pry>, [">= 0"])
     end
   else
     s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+    s.add_dependency(%q<i18n>, [">= 0"])
     s.add_dependency(%q<money-rails>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["= 1.8.4"])
     s.add_dependency(%q<pry>, [">= 0"])

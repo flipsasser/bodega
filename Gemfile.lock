@@ -86,6 +86,7 @@ PLATFORMS
 
 DEPENDENCIES
   configurator2 (>= 0.1.2)
+  i18n
   jeweler (= 1.8.4)
   money-rails
   pry

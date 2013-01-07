@@ -1,5 +1,6 @@
 require 'bodega/engine'
 require 'configurator'
+require 'i18n'
 require 'money-rails'
 
 module Bodega
