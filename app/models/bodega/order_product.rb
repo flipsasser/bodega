@@ -14,16 +14,12 @@ module Bodega
     validates_presence_of :quantity
     validate :product_available?
 
-    def decorated_product
-      product.respond_to?(:decorator) ? product.decorator.decorate(product) : product
-    end
-
     def identifier
       "#{product_type}.#{product_id}"
     end
 
     def name
-      decorated_product.respond_to?(:name) ? decorated_product.name : product.to_s
+      product.respond_to?(:name) ? product.name : product.to_s
     end
 
     def quantity_and_name
