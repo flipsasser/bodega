@@ -1,14 +1,13 @@
 module Bodega
   class OrderProduct < ActiveRecord::Base
     after_save :update_stock
+    before_save :calculate_total
 
     belongs_to :order, class_name: 'Bodega::Order'
     belongs_to :product, polymorphic: true
 
     delegate :keep_stock?, :price, to: :product
 
-    monetize :subtotal_cents
-    monetize :tax_cents
     monetize :total_cents
 
     validates_numericality_of :quantity, allow_blank: true, minimum: 1
@@ -17,19 +16,6 @@ module Bodega
 
     def decorated_product
       product.respond_to?(:decorator) ? product.decorator.decorate(product) : product
-    end
-
-    def finalize!(payment_method)
-      self.class.transaction do
-        self.save!
-        begin
-          self.payment_id = payment_method.complete!
-          self.save!
-        rescue Exception => e
-          raise ActiveRecord::Rollback
-          raise e.inspect
-        end
-      end
     end
 
     def identifier
@@ -45,21 +31,12 @@ module Bodega
     end
 
     def subtotal
-      read_attribute(:subtotal) || price * quantity
-    end
-
-    def total
-      read_attribute(:total) || subtotal + calculate_tax
+      price * quantity
     end
 
     protected
-    def calculate_tax
-      self.tax = 0
-    end
-
     def calculate_total
-      self.subtotal = price * quantity
-      self.total = subtotal + calculate_tax
+      self.total = subtotal
     end
 
     def product_available?
