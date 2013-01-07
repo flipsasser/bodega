@@ -4,7 +4,7 @@
 
 ## Installation
 1. Add `gem 'bodega'` to your Gemfile and bundle
-2. Run the install generator: `> rails generator bodega:install`
+2. Run the install generator: `rails generator bodega:install`
 3. Route to Bodega, like so:
 	  
 	```ruby
@@ -38,13 +38,13 @@ end
 	<tbody>
 		<tr>
 			<td>customer_method</td>
-			<td>`:current_user`</td>
-			<td>The method on the controller used to associate a customer to an order</td>
+			<td>:current_user</td>
+			<td>The method on the controller used to associate a customer to an order. Set to nil if you don't want to associate customers to orders.</td>
 		</tr>
 		<tr>
 			<td>payment_method</td>
-			<td>`:paypal`</td>
-			<td>The method on the controller used to associate a customer to an order</td>
+			<td>:paypal</td>
+			<td>The payment method used to process payments. Currently only Paypal is supported.</td>
 		</tr>
 		<tr>
 			<td>test_mode</td>
@@ -91,7 +91,7 @@ Bodega just needs a few database columns and a mixin on a model to make it purch
 ### Pre-existing models 
 For existing models, you need to run the "productize" generator:
 
-1. `> rails generate bodega:productize existing_class_name`
+1. `rails generate bodega:productize existing_class_name`
 2. Add `include Bodega::Product` to your class definition, so something like this:
 	```ruby
 	class User < ActiveRecord::Base
@@ -99,14 +99,14 @@ For existing models, you need to run the "productize" generator:
 	  # etc …
 	end
 	```
-3. `> rake db:migrate`
+3. `rake db:migrate`
  
 ### New models
 
 Just generate new models using the "product" generator:
 
-1. `> rails generate bodega:product new_class_name`
-2. `> rake db:migrate`
+1. `rails generate bodega:product new_class_name`
+2. `rake db:migrate`
 
 ## Adding an item to the cart
 
@@ -183,7 +183,7 @@ This should create ample room for you to style the cart / checkout view as you s
 #bodega-cart {
   border-collapse: collapse;
   border-width: 0;
-  widt  h: 100%;
+  width: 100%;
 }
 
 #bodega-cart thead {
@@ -231,7 +231,7 @@ en:
 
 ### Decorators
 
-If your product instances respond to a method `Product#decorator`, which returns an decorator class, Bodega will automatically use that to present your product instead of the direct instance. It does this by following the convention of calling `DecoratorClass.decorate(instance)`. Given the following productized model:
+If your product instances respond to a method `Product#decorator`, which returns a decorator class, Bodega will automatically use that to present your product instead of the direct instance. It does this by following the convention of calling `DecoratorClass.decorate(instance)`. Given the following productized model:
 
 ```ruby
 class Deck < ActiveRecord::Base
