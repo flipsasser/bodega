@@ -5,8 +5,6 @@ class CreateBodegaOrderProducts < ActiveRecord::Migration
       t.belongs_to :product, polymorphic: true
       t.integer :quantity
       t.money :price
-      t.money :subtotal
-      t.money :tax
       t.money :total
     end
   end

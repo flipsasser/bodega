@@ -6,7 +6,6 @@ class CreateBodegaOrders < ActiveRecord::Migration
       t.belongs_to :customer, polymorphic: true
       t.string :identifier, limit: 20
       t.string :payment_id
-      t.money :subtotal
       t.money :tax
       t.money :total
       t.timestamps
