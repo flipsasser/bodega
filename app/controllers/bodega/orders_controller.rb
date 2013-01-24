@@ -53,8 +53,11 @@ class Bodega::OrdersController < ApplicationController
         current_quantity = 0
       end
       new_quantity = product_hash[:quantity] ? product_hash[:quantity].to_i : current_quantity + 1
-      if product = product_hash[:type].constantize.where(id: product_hash[:id], keep_stock: true).first
-        new_quantity = [product.number_in_stock, new_quantity].min
+      if product = product_hash[:type].constantize.where(id: product_hash[:id], keep_stock: true).where('number_in_stock IS NOT NULL').first
+        if new_quantity > product.number_in_stock
+          flash[:error] = "Sorry, there #{product.number_in_stock == 1 ? 'is just one' : "are only #{product.number_in_stock}"} #{product.name.pluralize} in stock!"
+          new_quantity = product.number_in_stock
+        end
       end
       current_products[product_id] = product_hash.merge(quantity: new_quantity)
     end

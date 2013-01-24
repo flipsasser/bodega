@@ -24,7 +24,7 @@ module Bodega
     end
 
     def in_stock?
-      if keep_stock?
+      if keep_stock? && number_in_stock
         number_in_stock > 0
       else
         true
