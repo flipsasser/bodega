@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-01-07"
+  s.date = "2013-01-24"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -55,7 +55,8 @@ Gem::Specification.new do |s|
     "lib/generators/bodega/productize/productize_generator.rb",
     "lib/generators/bodega/productize/templates/migration.rb",
     "lib/tasks/bodega_tasks.rake",
-    "script/rails"
+    "script/rails",
+    "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/flipsasser/bodega"
   s.licenses = ["MIT"]
