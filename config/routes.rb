@@ -1,6 +1,6 @@
 Bodega::Engine.routes.draw do
   # Building orders
-  get '', as: :root, to: 'orders#new'
+  get '', as: :cart, to: 'orders#new'
   post '', to: 'orders#create'
 
   # Add products to an order

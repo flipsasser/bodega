@@ -8,7 +8,7 @@ class Bodega::OrdersController < ApplicationController
     if product = params[:product]
       update_cart(product)
     end
-    redirect_to root_path
+    redirect_to cart_path
   end
 
   def complete
@@ -26,7 +26,7 @@ class Bodega::OrdersController < ApplicationController
       update_cart(product)
     end
     if params[:checkout]
-      redirect_to payment_method.checkout_url(complete_url, root_url)
+      redirect_to payment_method.checkout_url(complete_url, cart_url)
     else
       render :new
     end
