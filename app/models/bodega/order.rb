@@ -22,25 +22,28 @@ module Bodega
       end
     end
 
-    def finalize!(payment_method)
+    def finalize!(options)
       self.class.transaction do
         self.save!
         begin
-          self.payment_id = payment_method.complete!
-          self.save!
-        rescue Exception => e
+          self.payment_id = payment_method.complete!(options)
+          self.save
+        rescue Exception
           raise ActiveRecord::Rollback
-          raise e.inspect
         end
       end
     end
 
-    def subtotal
-      @subtotal ||= order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
+    def payment_method
+      @payment_method ||= "Bodega::PaymentMethod::#{Bodega.config.payment_method.to_s.camelize}".constantize.new(self)
     end
 
-    def set_total
-      self.total = subtotal + tax
+    def shipping_method
+      @shipping_method ||= "Bodega::ShippingMethod::#{Bodega.config.shipping_method.to_s.camelize}".constantize.new(self)
+    end
+
+    def subtotal
+      @subtotal ||= order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
     end
 
     def to_param

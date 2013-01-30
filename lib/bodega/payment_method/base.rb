@@ -18,13 +18,12 @@ module Bodega
         raise "Implement #{self.class.name}#checkout_url"
       end
 
-      def complete!
+      def complete!(options = {})
         raise "Implement #{self.class.name}#complete!"
       end
 
-      def initialize(order, options)
+      def initialize(order)
         self.order = order
-        self.options = options
       end
     end
   end

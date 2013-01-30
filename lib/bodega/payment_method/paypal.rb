@@ -10,7 +10,7 @@ module Bodega
         response.redirect_uri
       end
 
-      def complete!
+      def complete!(options = {})
         response = client.checkout!(
           options[:token],
           options[:PayerID],

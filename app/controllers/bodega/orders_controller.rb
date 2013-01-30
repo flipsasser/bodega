@@ -1,6 +1,5 @@
 class Bodega::OrdersController < ApplicationController
   helper 'bodega/cart'
-  include Bodega::PaymentMethod
 
   before_filter :find_order, only: [:show, :update]
 
