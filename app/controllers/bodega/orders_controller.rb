@@ -11,8 +11,8 @@ class Bodega::OrdersController < ApplicationController
   end
 
   def complete
-    if current_order.finalize!(payment_method)
-      current_products.clear
+    if current_order.finalize!(params)
+      cart.clear
       redirect_to order_path(current_order)
     else
       flash[:error] = "There was a problem processing this order. Your account has not been charged."
@@ -25,14 +25,14 @@ class Bodega::OrdersController < ApplicationController
       update_cart(product)
     end
     if params[:checkout]
-      redirect_to payment_method.checkout_url(complete_url, cart_url)
+      redirect_to current_order.payment_method.checkout_url(complete_url, cart_url)
     else
       render :new
     end
   end
 
   def remove
-    current_products.delete params[:product_id]
+    cart.delete params[:product_id]
     redirect_to :back
   end
 

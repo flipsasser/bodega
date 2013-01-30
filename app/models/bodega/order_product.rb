@@ -13,7 +13,7 @@ module Bodega
     monetize :total_cents
 
     validates_numericality_of :quantity, allow_blank: true, minimum: 1
-    validates_presence_of :quantity
+    validates_presence_of :product, :quantity
     validate :product_available?
 
     def identifier
@@ -38,14 +38,15 @@ module Bodega
     end
 
     def product_available?
-      unless product.number_in_stock >= quantity
+      return true unless product.keep_stock?
+      if !product.in_stock?
+        errors.add(:quantity, I18n.t("out_of_stock", "is too high. Product is sold out."))
+      elsif product.number_in_stock < quantity
         quantity_message = case product.number_in_stock
-        when 0
-          t("sold_out", "Product is sold out.")
         when 1
-          t("one_in_stock", "There is now one in stock.")
+          I18n.t("one_in_stock", "There is now one in stock.")
         else
-          t("x_in_stock", "There are now x in stock").gsub(/ x /, quantity)
+          I18n.t("x_in_stock", "There are now x in stock").gsub(/ x /, quantity)
         end
         errors.add(:quantity, "is too high. #{quantity_message}.")
       end

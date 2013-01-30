@@ -6,6 +6,7 @@ module Bodega
         alias :method_missing :method_missing_with_bodega
       end
     end
+
     protected
     def method_missing_with_bodega(method_name, *args)
       if method_name.to_s =~ /.+_(url|path)$/ && main_app.respond_to?(method_name)

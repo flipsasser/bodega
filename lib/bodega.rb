@@ -8,6 +8,7 @@ module Bodega
 
   extend Configurator
   option :customer_method, :current_user
+  option :max_quantity, 1000
   # Auto-detect payment method. If a user has the Paypal gem installed,
   # it'll use that. If a user has the Plinq gem installed, it'll use that.
   # Otherwise, it'll be all, "HEY I NEED A PAYMENT METHOD" when checkout

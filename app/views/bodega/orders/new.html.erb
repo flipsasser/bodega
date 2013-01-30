@@ -1,4 +1,4 @@
-<% if current_products.empty? -%>
+<% if cart.empty? -%>
 <h3><%= t 'bodega.empty_cart' %></h3>
 <% else -%>
 <%= form_for(current_order, url: cart_path) do |form| %>
@@ -10,7 +10,7 @@
       <% current_order.order_products.each do |order_product| -%>
       <tr id="<%= order_product.identifier.parameterize %>">
         <td class="quantity-field">
-          <%= number_field_tag 'products[][quantity]', order_product.quantity, class: 'quantity', max: order_product.product.max_for_sale, min: 1 %>
+          <%= number_field_tag 'products[][quantity]', order_product.quantity, class: 'quantity', max: order_product.product.max_quantity, min: 1 %>
         </td>
         <td class="product-name">
           <%= order_product.name %>

@@ -31,8 +31,8 @@ module Bodega
       end
     end
 
-    def max_for_sale
-      keep_stock? ? number_in_stock : 1000
+    def max_quantity
+      keep_stock? ? number_in_stock : Bodega.config.max_quantity
     end
   end
 end

@@ -2,7 +2,7 @@ require 'spec_helper/active_record'
 require 'bodega/cart'
 
 describe Bodega::Cart do
-  let(:cart) { Bodega::Cart.new }
+  let(:cart) { Bodega::Cart.new({}) }
 
   it "defaults to quantity 1 when none given" do
     cart.update(type: "TestProduct", id: 1)

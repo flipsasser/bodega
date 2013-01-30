@@ -12,15 +12,15 @@ module Bodega
     end
 
     protected
+    def cart
+      @cart ||= Bodega::Cart.new(session[:bodega_products] ||= {})
+    end
+
     def current_order
       @current_order ||= Bodega::Order.new.tap do |order|
         order.customer = send(Bodega.config.customer_method) if Bodega.config.customer_method
-        order.build_products(current_products)
+        order.build_products(cart)
       end
-    end
-
-    def current_products
-      session[:bodega_products] ||= Bodega::Cart.new
     end
   end
 end
