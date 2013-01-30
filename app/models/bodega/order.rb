@@ -1,5 +1,6 @@
 module Bodega
   class Order < ActiveRecord::Base
+    self.table_name = :bodega_orders
     before_save :set_total
     before_create :set_identifier
 
@@ -9,6 +10,17 @@ module Bodega
 
     monetize :tax_cents
     monetize :total_cents
+
+    def build_products(product_hash)
+      self.order_products = product_hash.map do |type, item|
+        item = item.symbolize_keys
+        OrderProduct.new do |order_product|
+          order_product.product_type = item[:type]
+          order_product.product_id = item[:id]
+          order_product.quantity = item[:quantity]
+        end
+      end
+    end
 
     def finalize!(payment_method)
       self.class.transaction do

@@ -1,5 +1,7 @@
 module Bodega
   class OrderProduct < ActiveRecord::Base
+    self.table_name = :bodega_order_products
+
     after_save :update_stock
     before_save :calculate_total
 
@@ -19,7 +21,7 @@ module Bodega
     end
 
     def name
-      product.respond_to?(:name) ? product.name : product.to_s
+      product.respond_to?(:name) ? product.name : "#{product_type.titleize} ##{product_id}"
     end
 
     def quantity_and_name
@@ -37,23 +39,15 @@ module Bodega
 
     def product_available?
       unless product.number_in_stock >= quantity
-        quantity_error = case quantity
-        when 1
-          "We're sorry, but the #{name} you requested is no longer in stock."
-        else
-          "We're sorry, but there are no longer #{quantity} #{name.pluralize} in stock."
-        end
-
         quantity_message = case product.number_in_stock
         when 0
-          "They are now sold out."
+          t("sold_out", "Product is sold out.")
         when 1
-          "There is now one in stock."
+          t("one_in_stock", "There is now one in stock.")
         else
-          "There are now #{quantity} in stock."
+          t("x_in_stock", "There are now x in stock").gsub(/ x /, quantity)
         end
-
-        errors.add(:quantity, "#{quantity_error} #{quantity_message}.")
+        errors.add(:quantity, "is too high. #{quantity_message}.")
       end
     end
 

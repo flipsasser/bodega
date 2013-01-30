@@ -1,1 +1,4 @@
 --color
+-I app/controllers
+-I app/helpers
+-I app/models
