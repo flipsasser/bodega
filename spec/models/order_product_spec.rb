@@ -4,7 +4,7 @@ require 'bodega/order_product'
 describe Bodega::OrderProduct do
   let(:product) { TestProduct.create!(product_attrs) }
   let(:product_attrs) { {} }
-  let(:order_product) { Bodega::OrderProduct.new(product: product, quantity: 1) }
+  let(:order_product) { described_class.new(product: product, quantity: 1) }
 
   describe "#identifier" do
     it "returns a friendly identifier" do

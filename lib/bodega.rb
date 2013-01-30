@@ -1,4 +1,4 @@
-require 'bodega/engine'
+require 'bodega/engine' if defined?(Rails)
 require 'configurator'
 require 'i18n'
 require 'money-rails'
