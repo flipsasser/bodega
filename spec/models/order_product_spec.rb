@@ -32,10 +32,38 @@ describe Bodega::OrderProduct do
   end
 
   describe "#subtotal" do
-    before { TestProduct.send :include, Bodega::Product }
-
     it "returns the subtotal for the product quantity" do
-      order_product.subtotal.should == product.price
+      product.stub(:price) { 25.0 }
+      order_product.quantity = 2
+      order_product.subtotal.should == 50.0
+    end
+  end
+
+  describe "for stock-kept products" do
+    before do
+      product.stub(:price) { 25.0 }
+      product.stub(:in_stock?) { true }
+    end
+
+    let(:product_attrs) { {keep_stock: true, number_in_stock: 1} }
+
+    it "can't be saved if the product is out-of-stock" do
+      product.stub(:in_stock?) { false }
+      product.save!
+      order_product.save
+      order_product.errors[:quantity].size.should == 1
+    end
+
+    it "can't be saved if the quantity is too high" do
+      order_product.quantity = 2
+      order_product.save
+      order_product.errors[:quantity].size.should == 1
+    end
+
+    it "reduces Product#number_in_stock when it's saved" do
+      order_product.stub(:order) { OpenStruct.new }
+      order_product.save!
+      product.reload.number_in_stock.should == 0
     end
   end
 end

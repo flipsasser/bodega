@@ -8,18 +8,15 @@ module Bodega
         monetize :price_cents
 
         scope :for_sale, lambda {
-          where %[
-            for_sale IS TRUE OR
-            (
-              (for_sale_at >= :today OR for_sale_at IS NULL) AND
-              (not_for_sale_at <= :today OR not_for_sale_at IS NULL) AND
-              (for_sale_at IS NULL AND not_for_sale_at IS NULL) IS NOT TRUE
-            )
-          ], today: Date.today
+          today = Date.today
+          where(for_sale: true).
+          where(arel_table[:for_sale_at].lteq(today).or(arel_table[:for_sale_at].eq(nil))).
+          where(arel_table[:not_for_sale_at].gteq(today).or(arel_table[:not_for_sale_at].eq(nil)))
         }
 
-        # TODO: Get this to use a regular JOIN
         scope :popular, joins(%(LEFT JOIN "bodega_order_products" ON "bodega_order_products"."product_id" = "#{table_name}"."id" AND "bodega_order_products"."product_type" = '#{name}')).order('SUM(bodega_order_products.quantity) DESC').group("#{table_name}.id")
+
+        validates_numericality_of :number_in_stock, :if => :keep_stock?
       end
     end
 
