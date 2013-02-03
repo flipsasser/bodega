@@ -46,18 +46,26 @@ describe Bodega::OrderProduct do
       product.stub(:in_stock?) { false }
       product.save!
       order_product.save
-      order_product.errors[:quantity].size.should == 1
+      order_product.errors[:quantity].first.should == "Sorry, this product is sold out."
+    end
+
+    it "notifies me if my quantity is higher than the number left" do
+      order_product.quantity = 2
+      order_product.save
+      order_product.errors[:quantity].first.should == "There is only one in stock!"
     end
 
     it "can't be saved if the quantity is too high" do
-      order_product.quantity = 2
+      product.stub(:number_in_stock) { 2 }
+      order_product.quantity = 3
       order_product.save
-      order_product.errors[:quantity].size.should == 1
+      order_product.errors[:quantity].first.should == "There are only 2 in stock!"
     end
 
-    it "reduces Product#number_in_stock when it's saved" do
+    it "reduces Product#number_in_stock when #update_stock is called" do
       order_product.stub(:order) { OpenStruct.new }
       order_product.save!
+      order_product.update_stock
       product.reload.number_in_stock.should == 0
     end
   end

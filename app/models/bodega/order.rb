@@ -8,10 +8,9 @@ module Bodega
 
     attr_accessible :order_products_attributes, :street_1, :street_2, :city, :state, :postal_code
 
-    before_create :calculate_shipping
-    before_create :calculate_tax
     before_create :set_identifier
     before_save :set_total
+    before_save :find_shipping_options, if: :postal_code_changed?
 
     belongs_to :customer, polymorphic: true
 
@@ -44,10 +43,11 @@ module Bodega
       end
     end
 
-    def find_shipping_options!
+    def find_shipping_options
       self.shipping_options = shipping_method.options.map do |option|
         "#{option[:name]}: #{option[:price].format}"
       end
+    rescue ActiveMerchant::Shipping::ResponseError
     end
 
     def payment_method
@@ -75,7 +75,7 @@ module Bodega
     end
 
     def subtotal
-      @subtotal ||= order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
+      order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
     end
 
     def to_param
@@ -115,7 +115,7 @@ module Bodega
 
     def order_product(item)
       if item.is_a?(Hash)
-        order_products.detect {|order_product| order_product.product_type == item[:product_type] && order_product.product_id == item[:product_id] }
+        order_products.detect {|order_product| order_product.product_type == item[:product_type] && order_product.product_id == item[:product_id].to_i }
       else
         order_products.detect {|order_product| order_product.identifier == item }
       end

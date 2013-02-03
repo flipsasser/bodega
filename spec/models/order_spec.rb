@@ -10,20 +10,6 @@ describe Bodega::Order do
 
   let!(:product_1) { TestProduct.create!(price: 30) }
   let!(:product_2) { TestProduct.create!(price: 25) }
-  let(:cart) do
-    {
-      "TestProduct.1" => {
-        product_type: "TestProduct",
-        product_id: "1",
-        quantity: "1"
-      },
-      "TestProduct.2" => {
-        product_type: "TestProduct",
-        product_id: "2",
-        quantity: "2"
-      }
-    }
-  end
   let(:order) { Bodega::Order.new }
 
   describe "#payment_method" do
@@ -55,11 +41,25 @@ describe Bodega::Order do
   end
 
   describe "#subtotal" do
+    let(:cart) do
+      {
+        "TestProduct.1" => {
+          product_type: "TestProduct",
+          product_id: "1",
+          quantity: "1"
+        },
+        "TestProduct.2" => {
+          product_type: "TestProduct",
+          product_id: "2",
+          quantity: "2"
+        }
+      }
+    end
+
     it "adds up the #order_products subtotals" do
       cart.each do |identifier, item|
         order.update_product(item)
       end
-      puts order.order_products.inspect
       order.save!
       order.subtotal.should == 80
     end

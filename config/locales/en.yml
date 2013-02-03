@@ -1,6 +1,11 @@
 en:
   bodega:
+    check_out: "Check Out"
+    update_cart: "Update Cart"
     empty_cart: "Your cart is currently empty."
+    sold_out: "Sorry, this product is sold out."
+    one_in_stock: "There is only one in stock!"
+    x_in_stock: "There are only x in stock!"
     street_1: "123 Main Street"
     street_2: "Apartment #1B"
     city: "City"

@@ -1,4 +1,4 @@
-<%= form_for(current_order, url: new_order_path) do |form| %>
+<%= form_for(current_order, method: :post, url: new_order_path) do |form| %>
   <table id="bodega-cart">
     <thead>
       <tr><th class="product-name" colspan="2"><%= t 'bodega.product' %></th><th class="price"><%= t 'bodega.price' %></th><th class="total" colspan="2"><%= t 'bodega.total' %></th></tr>
@@ -17,8 +17,8 @@
       </tr>
     </tfoot>
   </table>
-  <% if !current_order.shipping_method || current_order.shipping_option -%>
   <%= button_tag t('bodega.update_cart'), id: 'bodega-update', name: :update, value: 1 %>
+  <% if !current_order.shipping_method || current_order.shipping_option -%>
   <%= button_tag t('bodega.checkout'), id: 'bodega-checkout', name: :checkout, value: 1 %>
   <% end -%>
 <% end =%>

@@ -2,7 +2,7 @@ module Bodega
   class OrderProduct < ActiveRecord::Base
     self.table_name = :bodega_order_products
 
-    attr_accessible :quantity, :product_id, :product_type
+    attr_accessible :quantity, :product, :product_id, :product_type
 
     before_save :calculate_total
 
@@ -48,15 +48,13 @@ module Bodega
     def product_available?
       return true unless product.keep_stock?
       if !product.in_stock?
-        errors.add(:quantity, I18n.t("out_of_stock", "is too high. Product is sold out."))
+        errors.add(:quantity, I18n.t("bodega.sold_out"))
       elsif product.number_in_stock < quantity
-        quantity_message = case product.number_in_stock
-        when 1
-          I18n.t("one_in_stock", "There is now one in stock.")
+        if product.number_in_stock == 1
+          errors.add(:quantity, I18n.t("bodega.one_in_stock"))
         else
-          I18n.t("x_in_stock", "There are now x in stock").gsub(/ x /, quantity)
+          errors.add(:quantity, I18n.t("bodega.x_in_stock").gsub(' x ', " #{product.number_in_stock} "))
         end
-        errors.add(:quantity, "is too high. #{quantity_message}.")
       end
     end
   end

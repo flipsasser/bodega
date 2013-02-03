@@ -1,6 +1,11 @@
 <tr id="<%= order_product.identifier.parameterize %>">
   <td class="quantity-field">
     <%= form.number_field :quantity, class: 'quantity', max: order_product.product.max_quantity, min: 1 %>
+    <% if order_product.errors[:quantity].any? -%>
+    <span class="bodega-errors">
+      <%= order_product.errors[:quantity].join('<br />').html_safe %>
+    </span>
+    <% end -%>
   </td>
   <td class="product-name">
     <%= order_product.name %>

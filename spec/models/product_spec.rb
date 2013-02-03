@@ -59,7 +59,6 @@ describe Bodega::Product do
 
   describe ".popular" do
     it "returns products in order of sales from high to low" do
-      require 'bodega/order'
       require 'bodega/order_product'
 
       product_1 = TestProduct.create!(price: 25.00)

@@ -3,6 +3,8 @@ require 'bodega/product'
 ActiveRecord::Base.logger = Logger.new(File.open('log/test.log', 'w+'))
 ActiveRecord::Base.establish_connection({:adapter => 'sqlite3', :database => ':memory:', :pool => 5, :timeout => 5000})
 
+I18n.load_path = %w(config/locales/en.yml)
+
 MoneyRails::Hooks.init
 
 class TestProduct < ActiveRecord::Base

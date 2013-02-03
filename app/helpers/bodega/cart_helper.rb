@@ -15,7 +15,7 @@ module Bodega
 
     protected
     def current_order
-      @current_order ||= Bodega::Order.where(identifier: params[:bodega_order]).first || Bodega::Order.new.tap do |order|
+      @current_order ||= Bodega::Order.where(identifier: session[:bodega_order_id]).first || Bodega::Order.new.tap do |order|
         order.customer = send(Bodega.config.customer_method) if Bodega.config.customer_method
       end
     end
