@@ -1,0 +1,1 @@
+MoneyRails::Hooks.init

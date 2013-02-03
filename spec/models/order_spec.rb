@@ -1,8 +1,7 @@
-require 'spec_helper/active_record'
+require 'spec_helper'
 require 'bodega/order'
 require 'bodega/order_product'
 require 'bodega/product'
-
 
 describe Bodega::Order do
   before do
@@ -53,15 +52,12 @@ describe Bodega::Order do
     require 'bodega/shipping_method'
 
     before do
-      Bodega.config { shipping_method :UPS }
+      Bodega.config { shipping_method :ups }
+      module ActiveMerchant; module Shipping; class UPS; end; end; end
     end
 
     it "returns an instance of Bodega::ShippingMethod::Base" do
       order.shipping_method.should be_instance_of(Bodega::ShippingMethod::UPS)
-    end
-
-    it "returns an instance of Bodega::ShippingMethod::Base with a reference to the order" do
-      order.shipping_method.order.should == order
     end
   end
 

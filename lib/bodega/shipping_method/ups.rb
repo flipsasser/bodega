@@ -3,13 +3,15 @@ require 'bodega/shipping_method/base'
 module Bodega
   module ShippingMethod
     class UPS < Base
-      #options :username, :password, :signature
+      options :login, :password, :api_key
 
       protected
       def client
-      end
-
-      def request
+        @client ||= ActiveMerchant::Shipping::UPS.new(
+          login: Bodega.config.ups.login,
+          password: Bodega.config.ups.password,
+          key: Bodega.config.ups.api_key
+        )
       end
     end
   end

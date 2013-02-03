@@ -1,6 +1,9 @@
 module Bodega
   class Order < ActiveRecord::Base
     self.table_name = :bodega_orders
+
+    attr_accessor :shipping_options
+
     before_create :calculate_shipping
     before_create :calculate_tax
     before_create :set_identifier
@@ -8,7 +11,6 @@ module Bodega
 
     belongs_to :customer, polymorphic: true
     has_many :order_products, class_name: 'Bodega::OrderProduct', dependent: :destroy
-    has_many :products, through: :order_products
 
     monetize :shipping_cents
     monetize :tax_cents
@@ -37,12 +39,26 @@ module Bodega
       end
     end
 
+    def find_shipping_options!
+      self.shipping_options = shipping_method.options.map do |option|
+        "#{option[:name]}: #{option[:price].format}"
+      end
+    end
+
     def payment_method
+      return nil unless Bodega.config.payment_method
       @payment_method ||= "Bodega::PaymentMethod::#{Bodega.config.payment_method.to_s.camelize}".constantize.new(self)
     end
 
+    def products
+      order_products.map(&:product)
+    end
+
     def shipping_method
-      @shipping_method ||= "Bodega::ShippingMethod::#{Bodega.config.shipping_method.to_s.camelize}".constantize.new(self)
+      case Bodega.config.shipping_method
+      when :ups
+        Bodega::ShippingMethod::UPS.new(self)
+      end
     end
 
     def subtotal
@@ -56,6 +72,9 @@ module Bodega
     protected
     def calculate_shipping
       self.shipping = 0
+      if shipping_method && shipping_option
+        self.shipping += shipping_method.amount_for(shipping_option)
+      end
     end
 
     def calculate_tax

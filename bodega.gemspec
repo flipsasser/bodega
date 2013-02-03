@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-01-24"
+  s.date = "2013-02-03"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "app/controllers/bodega/orders_controller.rb",
     "app/helpers/bodega/application_helper.rb",
     "app/helpers/bodega/cart_helper.rb",
+    "app/models/bodega/cart.rb",
     "app/models/bodega/order.rb",
     "app/models/bodega/order_product.rb",
     "app/models/bodega/product.rb",
@@ -45,6 +46,9 @@ Gem::Specification.new do |s|
     "lib/bodega/payment_method.rb",
     "lib/bodega/payment_method/base.rb",
     "lib/bodega/payment_method/paypal.rb",
+    "lib/bodega/shipping_method.rb",
+    "lib/bodega/shipping_method/base.rb",
+    "lib/bodega/shipping_method/ups.rb",
     "lib/bodega/version.rb",
     "lib/generators/bodega/install/install_generator.rb",
     "lib/generators/bodega/product/USAGE",
@@ -56,7 +60,14 @@ Gem::Specification.new do |s|
     "lib/generators/bodega/productize/templates/migration.rb",
     "lib/tasks/bodega_tasks.rake",
     "script/rails",
-    "spec/spec_helper.rb"
+    "spec/lib/bodega/payment_method/base_spec.rb",
+    "spec/lib/bodega_spec.rb",
+    "spec/models/cart_spec.rb",
+    "spec/models/order_product_spec.rb",
+    "spec/models/order_spec.rb",
+    "spec/models/product_spec.rb",
+    "spec/spec_helper.rb",
+    "spec/spec_helper/active_record.rb"
   ]
   s.homepage = "http://github.com/flipsasser/bodega"
   s.licenses = ["MIT"]
@@ -68,24 +79,21 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_runtime_dependency(%q<activerecord>, [">= 3.2.11"])
+      s.add_runtime_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_runtime_dependency(%q<money-rails>, [">= 0"])
-      s.add_development_dependency(%q<jeweler>, ["= 1.8.4"])
-      s.add_development_dependency(%q<pry>, [">= 0"])
     else
-      s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+      s.add_dependency(%q<activerecord>, [">= 3.2.11"])
+      s.add_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_dependency(%q<i18n>, [">= 0"])
       s.add_dependency(%q<money-rails>, [">= 0"])
-      s.add_dependency(%q<jeweler>, ["= 1.8.4"])
-      s.add_dependency(%q<pry>, [">= 0"])
     end
   else
-    s.add_dependency(%q<configurator2>, [">= 0.1.2"])
+    s.add_dependency(%q<activerecord>, [">= 3.2.11"])
+    s.add_dependency(%q<configurator2>, [">= 0.1.3"])
     s.add_dependency(%q<i18n>, [">= 0"])
     s.add_dependency(%q<money-rails>, [">= 0"])
-    s.add_dependency(%q<jeweler>, ["= 1.8.4"])
-    s.add_dependency(%q<pry>, [">= 0"])
   end
 end
 

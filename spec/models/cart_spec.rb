@@ -1,4 +1,4 @@
-require 'spec_helper/active_record'
+require 'spec_helper'
 require 'bodega/cart'
 
 describe Bodega::Cart do

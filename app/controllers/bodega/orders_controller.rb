@@ -25,8 +25,12 @@ class Bodega::OrdersController < ApplicationController
       update_cart(product)
     end
     if params[:checkout]
-      redirect_to current_order.payment_method.checkout_url(complete_url, cart_url)
+      return redirect_to current_order.payment_method.checkout_url(complete_url, cart_url)
     else
+      if params[:calculate_shipping]
+        session[:bodega_postal_code] = params[:postal_code]
+        current_order.find_shipping_options!
+      end
       render :new
     end
   end

@@ -18,6 +18,7 @@ module Bodega
 
     def current_order
       @current_order ||= Bodega::Order.new.tap do |order|
+        order.postal_code = session[:bodega_postal_code]
         order.customer = send(Bodega.config.customer_method) if Bodega.config.customer_method
         order.build_products(cart)
       end

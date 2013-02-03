@@ -28,6 +28,15 @@
         </td>
       </tr>
       <% end -%>
+      <% if current_order.shipping_method -%>
+      <tr id="bodega-shipping">
+        <td class="postal-code"><%= text_field_tag 'postal_code', current_order.postal_code, placeholder: t('bodega.postal_code') %></td>
+        <td class="shipping"><%= button_tag t('bodega.calculate_shipping'), id: 'bodega-calculate-shipping', name: :calculate_shipping, value: 1 %></td>
+        <td colspan="3">
+          <%= select_tag 'shipping_option', options_for_select(current_order.shipping_options) %>
+        </td>
+      </tr>
+      <% end -%>
       <tr>
         <td colspan="3"></td>
         <td><%= humanized_money_with_symbol current_order.subtotal %></td>
