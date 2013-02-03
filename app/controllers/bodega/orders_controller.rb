@@ -1,18 +1,16 @@
 class Bodega::OrdersController < ApplicationController
   helper 'bodega/cart'
 
-  before_filter :find_order, only: [:show, :update]
-
   def add
-    if product = params[:product]
+    if product = params[:order_product]
       update_cart(product)
     end
-    redirect_to cart_path
+    redirect_to new_order_path
   end
 
   def complete
     if current_order.finalize!(params)
-      cart.clear
+      session.delete(:bodega_order_id)
       redirect_to order_path(current_order)
     else
       flash[:error] = "There was a problem processing this order. Your account has not been charged."
@@ -21,23 +19,24 @@ class Bodega::OrdersController < ApplicationController
   end
 
   def create
-    params[:products].each do |product|
-      update_cart(product)
-    end
-    if params[:checkout]
-      return redirect_to current_order.payment_method.checkout_url(complete_url, cart_url)
-    else
-      if params[:calculate_shipping]
-        session[:bodega_postal_code] = params[:postal_code]
-        current_order.find_shipping_options!
+    if current_order.update_attributes(params[:order])
+      if params[:checkout]
+        redirect_to current_order.payment_method.checkout_url(complete_order_url, new_order_url)
+      else
+        redirect_to new_order_path
       end
+    else
       render :new
     end
   end
 
   def remove
-    cart.delete params[:product_id]
+    current_order.remove_product params[:product_id]
     redirect_to :back
+  end
+
+  def show
+    render :edit unless @order.complete?
   end
 
   protected
@@ -46,6 +45,8 @@ class Bodega::OrdersController < ApplicationController
   end
 
   def update_cart(product_hash)
-    cart.update(product_hash)
+    if current_order.update_product(product_hash)
+      session[:bodega_order_id] = current_order.identifier
+    end
   end
 end

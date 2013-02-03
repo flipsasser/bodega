@@ -6,7 +6,7 @@ module Bodega
       options :username, :password, :signature
 
       def checkout_url(success_url, cancel_url)
-        response = client.setup(request, success_url, cancel_url)
+        response = client.setup(request, success_url, cancel_url, no_shipping: true)
         response.redirect_uri
       end
 
@@ -32,7 +32,16 @@ module Bodega
       def request
         @request ||= ::Paypal::Payment::Request.new(
           amount: order.subtotal.to_f,
-          description: order.order_products.map(&:quantity_and_name).to_sentence
+          description: order.order_products.map(&:quantity_and_name).to_sentence,
+          items: order.order_products.map {|order_product|
+            {
+              name: order_product.name,
+              amount: order_product.price.to_f,
+              quantity: order_product.quantity
+            }
+          },
+          shipping: order.shipping.to_f,
+          tax: order.tax.to_f
         )
       end
     end

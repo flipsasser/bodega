@@ -3,7 +3,7 @@ require 'bodega/order_product'
 
 describe Bodega::OrderProduct do
   let(:product) { TestProduct.create!(product_attrs) }
-  let(:product_attrs) { {} }
+  let(:product_attrs) { {price: 49.95} }
   let(:order_product) { described_class.new(product: product, quantity: 1) }
 
   describe "#identifier" do
@@ -40,12 +40,7 @@ describe Bodega::OrderProduct do
   end
 
   describe "for stock-kept products" do
-    before do
-      product.stub(:price) { 25.0 }
-      product.stub(:in_stock?) { true }
-    end
-
-    let(:product_attrs) { {keep_stock: true, number_in_stock: 1} }
+    let(:product_attrs) { {price: 49.95, keep_stock: true, number_in_stock: 1} }
 
     it "can't be saved if the product is out-of-stock" do
       product.stub(:in_stock?) { false }

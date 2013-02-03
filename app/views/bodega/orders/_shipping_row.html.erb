@@ -1,0 +1,24 @@
+<tr id="bodega-shipping">
+  <td class="address-form" colspan="2">
+    <span class="bodega-field">
+      <%= form.text_field :street_1, placeholder: t('bodega.street_1') %>
+    </span>
+    <span class="bodega-field">
+      <%= form.text_field :street_2, placeholder: t('bodega.street_2') %>
+    </span>
+    <span class="bodega-field">
+      <%= form.text_field :city, placeholder: t('bodega.city') %>
+      <%= form.select :state, Bodega.config.shipping.states || [], include_blank: true %>
+    </span>
+    <span class="bodega-field">
+      <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
+      <%= button_tag t('bodega.calculate_chipping'), id: 'bodega-calculate-shipping', name: :calculate_shipping, value: 1 %>
+    </span>
+  </td>
+  <td class="shipping-submit">
+    <%= form.select :shipping_option, current_order.shipping_options if current_order.shipping_options %>
+  </td>
+  <td class="">
+
+  </td>
+</tr>

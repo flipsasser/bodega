@@ -4,6 +4,7 @@ class CreateBodegaOrders < ActiveRecord::Migration
   def change
     create_table :bodega_orders do |t|
       t.belongs_to :customer, polymorphic: true
+      t.integer :status
       t.string :identifier, limit: 20
       t.string :payment_id
       t.string :shipping_option, limit: 20

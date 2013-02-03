@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem 'activerecord', '>= 3.2.11'
 gem 'configurator2', '>= 0.1.3'
 gem 'i18n'
+gem 'maintain'
 gem 'money-rails'
 
 group :test do

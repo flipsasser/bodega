@@ -1,50 +1,5 @@
-<% if cart.empty? -%>
+<% if current_order.empty? -%>
 <h3><%= t 'bodega.empty_cart' %></h3>
 <% else -%>
-<%= form_for(current_order, url: cart_path) do |form| %>
-  <table id="bodega-cart">
-    <thead>
-      <tr><th class="product-name" colspan="2"><%= t 'bodega.product' %></th><th class="price"><%= t 'bodega.price' %></th><th class="total" colspan="2"><%= t 'bodega.total' %></th></tr>
-    </thead>
-    <tbody>
-      <% current_order.order_products.each do |order_product| -%>
-      <tr id="<%= order_product.identifier.parameterize %>">
-        <td class="quantity-field">
-          <%= number_field_tag 'products[][quantity]', order_product.quantity, class: 'quantity', max: order_product.product.max_quantity, min: 1 %>
-        </td>
-        <td class="product-name">
-          <%= order_product.name %>
-          <%= hidden_field_tag 'products[][type]', order_product.product_type %>
-          <%= hidden_field_tag 'products[][id]', order_product.product_id %>
-        </td>
-        <td class="price">
-          <%= humanized_money_with_symbol order_product.price %>
-        </td>
-        <td class="subtotal">
-          <%= humanized_money_with_symbol order_product.subtotal %>
-        </td>
-        <td class="remove">
-          <%= link_to t('bodega.remove'), bodega.remove_path(product_id: order_product.identifier) %>
-        </td>
-      </tr>
-      <% end -%>
-      <% if current_order.shipping_method -%>
-      <tr id="bodega-shipping">
-        <td class="postal-code"><%= text_field_tag 'postal_code', current_order.postal_code, placeholder: t('bodega.postal_code') %></td>
-        <td class="shipping"><%= button_tag t('bodega.calculate_shipping'), id: 'bodega-calculate-shipping', name: :calculate_shipping, value: 1 %></td>
-        <td colspan="3">
-          <%= select_tag 'shipping_option', options_for_select(current_order.shipping_options) %>
-        </td>
-      </tr>
-      <% end -%>
-      <tr>
-        <td colspan="3"></td>
-        <td><%= humanized_money_with_symbol current_order.subtotal %></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <%= button_tag t('bodega.update_cart'), id: 'bodega-update', name: :update, value: 1 %>
-  <%= button_tag t('bodega.checkout'), id: 'bodega-checkout', name: :checkout, value: 1 %>
-<% end =%>
+<%= render :partial => 'cart' %>
 <% end -%>

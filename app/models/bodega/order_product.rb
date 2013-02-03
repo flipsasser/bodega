@@ -2,7 +2,8 @@ module Bodega
   class OrderProduct < ActiveRecord::Base
     self.table_name = :bodega_order_products
 
-    after_save :update_stock
+    attr_accessible :quantity, :product_id, :product_type
+
     before_save :calculate_total
 
     belongs_to :order, class_name: 'Bodega::Order'
@@ -22,6 +23,13 @@ module Bodega
 
     def name
       product.respond_to?(:name) ? product.name : "#{product_type.titleize} ##{product_id}"
+    end
+
+    def update_stock
+      if keep_stock?
+        product.number_in_stock = product.number_in_stock - quantity
+        product.save(validate: false)
+      end
     end
 
     def quantity_and_name
@@ -49,13 +57,6 @@ module Bodega
           I18n.t("x_in_stock", "There are now x in stock").gsub(/ x /, quantity)
         end
         errors.add(:quantity, "is too high. #{quantity_message}.")
-      end
-    end
-
-    def update_stock
-      if keep_stock?
-        product.number_in_stock = product.number_in_stock - quantity
-        product.save(validate: false)
       end
     end
   end

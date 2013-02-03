@@ -30,6 +30,7 @@ module Bodega
       postal_code nil
       country nil
     end
+    states []
     units :metric
   end
 

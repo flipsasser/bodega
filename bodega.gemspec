@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
     "db/migrate/20121111170420_create_bodega_order_products.rb",
     "lib/bodega.rb",
     "lib/bodega/engine.rb",
+    "lib/bodega/optional.rb",
     "lib/bodega/payment_method.rb",
     "lib/bodega/payment_method/base.rb",
     "lib/bodega/payment_method/paypal.rb",
@@ -61,13 +62,16 @@ Gem::Specification.new do |s|
     "lib/tasks/bodega_tasks.rake",
     "script/rails",
     "spec/lib/bodega/payment_method/base_spec.rb",
+    "spec/lib/bodega/shipping_method/base_spec.rb",
     "spec/lib/bodega_spec.rb",
     "spec/models/cart_spec.rb",
     "spec/models/order_product_spec.rb",
     "spec/models/order_spec.rb",
     "spec/models/product_spec.rb",
     "spec/spec_helper.rb",
-    "spec/spec_helper/active_record.rb"
+    "spec/support/active_record.rb",
+    "spec/support/rails.rb",
+    "spec/support/vcr.rb"
   ]
   s.homepage = "http://github.com/flipsasser/bodega"
   s.licenses = ["MIT"]
@@ -82,17 +86,20 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activerecord>, [">= 3.2.11"])
       s.add_runtime_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_runtime_dependency(%q<i18n>, [">= 0"])
+      s.add_runtime_dependency(%q<maintain>, [">= 0"])
       s.add_runtime_dependency(%q<money-rails>, [">= 0"])
     else
       s.add_dependency(%q<activerecord>, [">= 3.2.11"])
       s.add_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_dependency(%q<i18n>, [">= 0"])
+      s.add_dependency(%q<maintain>, [">= 0"])
       s.add_dependency(%q<money-rails>, [">= 0"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 3.2.11"])
     s.add_dependency(%q<configurator2>, [">= 0.1.3"])
     s.add_dependency(%q<i18n>, [">= 0"])
+    s.add_dependency(%q<maintain>, [">= 0"])
     s.add_dependency(%q<money-rails>, [">= 0"])
   end
 end

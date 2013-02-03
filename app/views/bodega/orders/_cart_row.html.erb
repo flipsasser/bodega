@@ -1,0 +1,19 @@
+<tr id="<%= order_product.identifier.parameterize %>">
+  <td class="quantity-field">
+    <%= form.number_field :quantity, class: 'quantity', max: order_product.product.max_quantity, min: 1 %>
+  </td>
+  <td class="product-name">
+    <%= order_product.name %>
+    <%= form.hidden_field :product_type %>
+    <%= form.hidden_field :product_id %>
+  </td>
+  <td class="price">
+    <%= humanized_money_with_symbol order_product.price %>
+  </td>
+  <td class="subtotal">
+    <%= humanized_money_with_symbol order_product.subtotal %>
+  </td>
+  <td class="remove">
+    <%= link_to t('bodega.remove'), bodega.remove_from_order_path(product_id: order_product.identifier) %>
+  </td>
+</tr>

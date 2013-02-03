@@ -1,4 +1,7 @@
 en:
   bodega:
     empty_cart: "Your cart is currently empty."
+    street_1: "123 Main Street"
+    street_2: "Apartment #1B"
+    city: "City"
     postal_code: "Zip"

@@ -48,6 +48,7 @@ GEM
       rdoc
     journey (1.0.4)
     json (1.7.6)
+    maintain (0.2.23)
     method_source (0.8.1)
     money (5.1.0)
       i18n (~> 0.6.0)
@@ -114,6 +115,7 @@ DEPENDENCIES
   database_cleaner
   i18n
   jeweler (= 1.8.4)
+  maintain
   money-rails
   pry
   rspec-rails

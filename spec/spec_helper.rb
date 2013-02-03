@@ -1,6 +1,9 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 
+require 'simplecov'
+SimpleCov.start
+
 require 'active_record'
 require 'database_cleaner'
 require 'logger'

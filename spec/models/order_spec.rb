@@ -13,25 +13,18 @@ describe Bodega::Order do
   let(:cart) do
     {
       "TestProduct.1" => {
-        type: "TestProduct",
-        id: "1",
+        product_type: "TestProduct",
+        product_id: "1",
         quantity: "1"
       },
       "TestProduct.2" => {
-        type: "TestProduct",
-        id: "2",
+        product_type: "TestProduct",
+        product_id: "2",
         quantity: "2"
       }
     }
   end
   let(:order) { Bodega::Order.new }
-
-  describe "#build_products" do
-    it "builds an order from a cart" do
-      order.build_products(cart)
-      order.order_products.size.should == 2
-    end
-  end
 
   describe "#payment_method" do
     require 'bodega'
@@ -63,9 +56,38 @@ describe Bodega::Order do
 
   describe "#subtotal" do
     it "adds up the #order_products subtotals" do
-      order.build_products(cart)
+      cart.each do |identifier, item|
+        order.update_product(item)
+      end
+      puts order.order_products.inspect
       order.save!
       order.subtotal.should == 80
+    end
+  end
+
+  describe "cart management" do
+    before { order.save! }
+
+    it "defaults to quantity 1 when none given" do
+      order.update_product(product_type: "TestProduct", product_id: 1)
+      order.send(:order_product, "TestProduct.1").quantity.should == 1
+    end
+
+    it "accepts new quantities" do
+      order.update_product(product_type: "TestProduct", product_id: 1, quantity: 10)
+      order.send(:order_product, "TestProduct.1").quantity.should == 10
+    end
+
+    it "updates old quantities when no new quantity is given" do
+      order.update_product(product_type: "TestProduct", product_id: 1, quantity: 10)
+      order.update_product(product_type: "TestProduct", product_id: 1)
+      order.send(:order_product, "TestProduct.1").quantity.should == 11
+    end
+
+    it "removes products when told to" do
+      order.update_product(product_type: "TestProduct", product_id: 1, quantity: 10)
+      order.update_product(product_type: "TestProduct", product_id: 1, quantity: 30, remove: "1")
+      order.send(:order_product, "TestProduct.1").should be_nil
     end
   end
 end
