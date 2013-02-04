@@ -21,7 +21,7 @@ class Bodega::OrdersController < ApplicationController
 
   def create
     if current_order.update_attributes(params[:order])
-      if params[:checkout]
+      if !current_order.new_shipping_rates? && params[:checkout]
         redirect_to current_order.payment_method.checkout_url(complete_order_url, new_order_url)
       else
         redirect_to new_order_path

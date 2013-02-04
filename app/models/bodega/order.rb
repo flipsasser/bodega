@@ -44,6 +44,10 @@ module Bodega
       end
     end
 
+    def new_shipping_rates?
+      @new_shipping_rates
+    end
+
     def payment_method
       return nil unless Bodega.config.payment_method
       @payment_method ||= "Bodega::PaymentMethod::#{Bodega.config.payment_method.to_s.camelize}".constantize.new(self)
@@ -54,7 +58,7 @@ module Bodega
     end
 
     def ready?
-      shipping_method.present? || shipping_rates.any?
+      shipping_method.nil? || shipping_rates.present?
     end
 
     def remove_product(item)
@@ -136,6 +140,7 @@ module Bodega
 
     def set_shipping_rates
       self.shipping_rates = postal_code.present? ? shipping_method.rates : nil
+      @new_shipping_rates = true
     end
 
     def set_total
