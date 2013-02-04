@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-02-03"
+  s.date = "2013-02-04"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -30,10 +30,13 @@ Gem::Specification.new do |s|
     "app/controllers/bodega/orders_controller.rb",
     "app/helpers/bodega/application_helper.rb",
     "app/helpers/bodega/cart_helper.rb",
-    "app/models/bodega/cart.rb",
     "app/models/bodega/order.rb",
     "app/models/bodega/order_product.rb",
     "app/models/bodega/product.rb",
+    "app/views/bodega/orders/_cart.html.erb",
+    "app/views/bodega/orders/_cart_row.html.erb",
+    "app/views/bodega/orders/_shipping_row.html.erb",
+    "app/views/bodega/orders/edit.html.erb",
     "app/views/bodega/orders/new.html.erb",
     "app/views/bodega/orders/show.html.erb",
     "bodega.gemspec",
@@ -64,7 +67,6 @@ Gem::Specification.new do |s|
     "spec/lib/bodega/payment_method/base_spec.rb",
     "spec/lib/bodega/shipping_method/base_spec.rb",
     "spec/lib/bodega_spec.rb",
-    "spec/models/cart_spec.rb",
     "spec/models/order_product_spec.rb",
     "spec/models/order_spec.rb",
     "spec/models/product_spec.rb",
