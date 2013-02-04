@@ -1,4 +1,6 @@
 class Bodega::OrdersController < ApplicationController
+  before_filter :find_order, only: %w(show)
+
   helper 'bodega/cart'
 
   def add
@@ -11,10 +13,9 @@ class Bodega::OrdersController < ApplicationController
   def complete
     if current_order.finalize!(params)
       session.delete(:bodega_order_id)
-      redirect_to order_path(current_order)
+      redirect_to order_path(current_order), notice: t('bodega.order_processed')
     else
-      flash[:error] = "There was a problem processing this order. Your account has not been charged."
-      redirect_to new_order_path
+      redirect_to new_order_path, error: t('bodega.order_failed')
     end
   end
 

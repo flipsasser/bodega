@@ -31,7 +31,7 @@ module Bodega
 
       def request
         @request ||= ::Paypal::Payment::Request.new(
-          amount: order.subtotal.to_f,
+          amount: order.total.to_f,
           description: order.order_products.map(&:quantity_and_name).to_sentence,
           items: order.order_products.map {|order_product|
             {
@@ -40,8 +40,8 @@ module Bodega
               quantity: order_product.quantity
             }
           },
-          shipping: order.shipping.to_f,
-          tax: order.tax.to_f
+          shipping_amount: order.shipping.to_f,
+          tax_amount: order.tax.to_f
         )
       end
     end
