@@ -1,5 +1,5 @@
 <tr id="<%= order_product.identifier.parameterize %>">
-  <td class="quantity-field">
+  <td class="product-quantity">
     <%= form.number_field :quantity, class: 'quantity', max: order_product.product.max_quantity, min: 1 %>
     <% if order_product.errors[:quantity].any? -%>
     <span class="bodega-errors">
@@ -12,13 +12,13 @@
     <%= form.hidden_field :product_type %>
     <%= form.hidden_field :product_id %>
   </td>
-  <td class="price">
+  <td class="product-price">
     <%= humanized_money_with_symbol order_product.price %>
   </td>
-  <td class="subtotal">
+  <td class="product-subtotal">
     <%= humanized_money_with_symbol order_product.subtotal %>
   </td>
-  <td class="remove">
+  <td class="product-remove">
     <%= link_to t('bodega.remove'), bodega.remove_from_order_path(product_id: order_product.identifier) %>
   </td>
 </tr>

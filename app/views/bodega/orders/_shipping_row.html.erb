@@ -1,23 +1,13 @@
-<tr id="bodega-shipping">
-  <td class="address-form" colspan="2">
-    <span class="bodega-field">
-      <%= form.text_field :street_1, placeholder: t('bodega.street_1') %>
-    </span>
-    <span class="bodega-field">
-      <%= form.text_field :street_2, placeholder: t('bodega.street_2') %>
-    </span>
-    <span class="bodega-field">
-      <%= form.text_field :city, placeholder: t('bodega.city') %>
-      <%= form.select :state, Bodega.config.shipping.states || [], include_blank: true %>
-    </span>
-    <span class="bodega-field">
-      <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
-      <%= button_tag t('bodega.calculate_chipping'), id: 'bodega-calculate-shipping', name: :calculate_shipping, value: 1 %>
-    </span>
+<tr>
+  <td class="shipping-postal-code">
+    <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
   </td>
-  <td class="shipping-submit">
+  <td class="shipping-rates" colspan="2">
+    <% if current_order.postal_code.present? -%>
+    <%= form.select :shipping_rate_code, current_order.shipping_rate_options %>
+    <% end -%>
   </td>
-  <td class="">
-
+  <td class="shipping-total" colspan="2">
+    <%= humanized_money_with_symbol current_order.shipping %>
   </td>
 </tr>

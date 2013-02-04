@@ -12,15 +12,15 @@ module Bodega
         self.order = order
       end
 
-      def options
-        return [] unless packages.any?
-        @options ||= [].tap do |options|
+      def rates
+        return {} unless packages.any?
+        @rates ||= {}.tap do |rates|
           response = client.find_rates(origin, destination, packages)
-          response.rates.sort(&:price).each do |rate|
-            options.push({
+          response.rates.sort_by(&:price).each do |rate|
+            rates[rate.service_code] = {
               name: rate.service_name,
-              price: Money.new(rate.price)
-            })
+              price: rate.price
+            }
           end
         end
       end

@@ -4,13 +4,12 @@ module Bodega
   class Order < ActiveRecord::Base
     self.table_name = :bodega_orders
 
-    attr_accessor :shipping_options
-
-    attr_accessible :order_products_attributes, :street_1, :street_2, :city, :state, :postal_code
+    attr_accessible :order_products_attributes, :street_1, :street_2, :city, :state, :postal_code, :shipping_rate_code
 
     before_create :set_identifier
+    before_save :set_shipping_rates, if: :postal_code_changed?
+    before_save :calculate_shipping, if: :shipping_rate_code_changed?
     before_save :set_total
-    before_save :find_shipping_options, if: :postal_code_changed?
 
     belongs_to :customer, polymorphic: true
 
@@ -30,6 +29,8 @@ module Bodega
     monetize :tax_cents
     monetize :total_cents
 
+    serialize :shipping_rates
+
     def finalize!(options)
       self.class.transaction do
         self.status = :complete
@@ -43,13 +44,6 @@ module Bodega
       end
     end
 
-    def find_shipping_options
-      self.shipping_options = shipping_method.options.map do |option|
-        "#{option[:name]}: #{option[:price].format}"
-      end
-    rescue ActiveMerchant::Shipping::ResponseError
-    end
-
     def payment_method
       return nil unless Bodega.config.payment_method
       @payment_method ||= "Bodega::PaymentMethod::#{Bodega.config.payment_method.to_s.camelize}".constantize.new(self)
@@ -57,6 +51,10 @@ module Bodega
 
     def products
       order_products.map(&:product)
+    end
+
+    def ready?
+      shipping_method.present? || shipping_rates.any?
     end
 
     def remove_product(item)
@@ -71,6 +69,16 @@ module Bodega
       case Bodega.config.shipping_method
       when :ups
         Bodega::ShippingMethod::UPS.new(self)
+      end
+    end
+
+    def shipping_rate_options
+      @shipping_rate_options ||= ActiveSupport::OrderedHash.new.tap do |rates|
+        shipping_rates.sort_by {|code, rate| rate[:price] }.each do |code, rate|
+          name = rate[:name]
+          price = Money.new(rate[:price])
+          rates["#{name}: #{price.format}"] = code
+        end
       end
     end
 
@@ -100,8 +108,9 @@ module Bodega
     protected
     def calculate_shipping
       self.shipping = 0
-      if shipping_method && shipping_option
-        self.shipping += shipping_method.amount_for(shipping_option)
+      if shipping_rate_code
+        self.shipping_rate_name = shipping_rates[shipping_rate_code][:name]
+        self.shipping = shipping_rates[shipping_rate_code][:price] / 100.0
       end
     end
 
@@ -125,8 +134,12 @@ module Bodega
       self.identifier = self.class.count.succ.to_s(36)
     end
 
+    def set_shipping_rates
+      self.shipping_rates = shipping_method.rates
+    end
+
     def set_total
-      self.total = subtotal + tax #+ shipping
+      self.total = subtotal + tax + shipping
     end
   end
 end

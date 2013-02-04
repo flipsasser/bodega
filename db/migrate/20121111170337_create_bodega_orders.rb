@@ -7,7 +7,9 @@ class CreateBodegaOrders < ActiveRecord::Migration
       t.integer :status
       t.string :identifier, limit: 20
       t.string :payment_id
-      t.string :shipping_option, limit: 20
+      t.string :shipping_rate_code
+      t.string :shipping_rate_name, limit: 50
+      t.text :shipping_rates
       t.string :tracking_number
       t.string :street_1, limit: 60
       t.string :street_2, limit: 60

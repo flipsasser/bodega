@@ -6,7 +6,7 @@ module Bodega
       options :username, :password, :signature
 
       def checkout_url(success_url, cancel_url)
-        response = client.setup(request, success_url, cancel_url, no_shipping: true)
+        response = client.setup(request, success_url, cancel_url)
         response.redirect_uri
       end
 

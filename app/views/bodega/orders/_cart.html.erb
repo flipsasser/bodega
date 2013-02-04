@@ -1,7 +1,7 @@
 <%= form_for(current_order, method: :post, url: new_order_path) do |form| %>
   <table id="bodega-cart">
     <thead>
-      <tr><th class="product-name" colspan="2"><%= t 'bodega.product' %></th><th class="price"><%= t 'bodega.price' %></th><th class="total" colspan="2"><%= t 'bodega.total' %></th></tr>
+      <tr><th class="product-name" colspan="2"><%= t 'bodega.product' %></th><th class="product-price"><%= t 'bodega.price' %></th><th class="product-total" colspan="2"><%= t 'bodega.total' %></th></tr>
     </thead>
     <tbody>
       <%= form.fields_for(:order_products) do |order_product_form| -%>
@@ -10,15 +10,17 @@
     </tbody>
     <tfoot>
       <%= render partial: 'shipping_row', locals: {form: form} if current_order.shipping_method %>
+      <% if current_order.ready? -%>
       <tr>
-        <td colspan="3"></td>
-        <td><%= humanized_money_with_symbol current_order.total %></td>
+        <td class="product-total-label" colspan="3"><%= t 'bodega.total' %></td>
+        <td class="product-total"><%= humanized_money_with_symbol current_order.total %></td>
         <td></td>
       </tr>
+      <% end -%>
     </tfoot>
   </table>
   <%= button_tag t('bodega.update_cart'), id: 'bodega-update', name: :update, value: 1 %>
-  <% if !current_order.shipping_method || current_order.shipping_option -%>
+  <% if current_order.ready? -%>
   <%= button_tag t('bodega.checkout'), id: 'bodega-checkout', name: :checkout, value: 1 %>
   <% end -%>
 <% end =%>
