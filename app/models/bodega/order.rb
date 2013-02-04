@@ -135,7 +135,7 @@ module Bodega
     end
 
     def set_shipping_rates
-      self.shipping_rates = shipping_method.rates
+      self.shipping_rates = postal_code.present? ? shipping_method.rates : nil
     end
 
     def set_total
