@@ -24,6 +24,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "flip@x451.com"
   gem.authors = ["Flip Sasser"]
   # dependencies defined in Gemfile
+  gem.files.exclude "spec/**/*", ".rvmrc", ".rspec"
 end
 Jeweler::RubygemsDotOrgTasks.new
 

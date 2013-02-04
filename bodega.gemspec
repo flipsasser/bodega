@@ -16,8 +16,6 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
-    ".rspec",
-    ".rvmrc",
     "Gemfile",
     "Gemfile.lock",
     "MIT-LICENSE",
@@ -62,18 +60,7 @@ Gem::Specification.new do |s|
     "lib/generators/bodega/productize/USAGE",
     "lib/generators/bodega/productize/productize_generator.rb",
     "lib/generators/bodega/productize/templates/migration.rb",
-    "lib/tasks/bodega_tasks.rake",
-    "script/rails",
-    "spec/lib/bodega/payment_method/base_spec.rb",
-    "spec/lib/bodega/shipping_method/base_spec.rb",
-    "spec/lib/bodega_spec.rb",
-    "spec/models/order_product_spec.rb",
-    "spec/models/order_spec.rb",
-    "spec/models/product_spec.rb",
-    "spec/spec_helper.rb",
-    "spec/support/active_record.rb",
-    "spec/support/rails.rb",
-    "spec/support/vcr.rb"
+    "lib/tasks/bodega_tasks.rake"
   ]
   s.homepage = "http://github.com/flipsasser/bodega"
   s.licenses = ["MIT"]
