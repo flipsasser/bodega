@@ -54,7 +54,7 @@ module Bodega
         product = order_product.product
         packages = []
         order_product.quantity.times do
-          packages.push(Package.new(weight, dimensions, units: Bodega.config.shipping.units))
+          packages.push(Package.new(product.weight, product.dimensions, units: Bodega.config.shipping.units))
         end
         packages
       end
