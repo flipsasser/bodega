@@ -16,7 +16,7 @@ module Bodega
     has_many :order_products, class_name: 'Bodega::OrderProduct', dependent: :destroy
     accepts_nested_attributes_for :order_products
 
-    delegate :empty?, to: :order_products
+    delegate :count, :empty?, :size, to: :order_products
 
     maintain :status do
       state :new, 1, default: true
