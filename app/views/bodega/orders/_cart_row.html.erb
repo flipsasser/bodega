@@ -19,6 +19,6 @@
     <%= humanized_money_with_symbol order_product.subtotal %>
   </td>
   <td class="product-remove">
-    <%= link_to t('bodega.remove'), bodega.remove_from_order_path(product_id: order_product.identifier) %>
+    <%= link_to t('bodega.remove_link'), bodega.remove_from_order_path(product_id: order_product.identifier) %>
   </td>
 </tr>
