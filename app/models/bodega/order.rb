@@ -7,7 +7,7 @@ module Bodega
     attr_accessible :order_products_attributes, :postal_code, :shipping_rate_code
 
     before_create :set_identifier
-    before_save :set_shipping_rates, if: :postal_code_changed?
+    before_save :set_shipping_rates, if: :set_shipping_rates?
     before_save :calculate_shipping, if: :shipping_rate_code_changed?
     before_save :set_total
 
@@ -21,7 +21,6 @@ module Bodega
     maintain :status do
       state :new, 1, default: true
       state :complete, 2
-
       on :enter, :complete, :mark_order_products_as_purchased
     end
 
@@ -148,6 +147,10 @@ module Bodega
         self.shipping_rates = self.shipping_rate_code = nil
       end
       @new_shipping_rates = true
+    end
+
+    def set_shipping_rates?
+      postal_code_changed? || order_products.any?(&:quantity_changed?)
     end
 
     def set_total

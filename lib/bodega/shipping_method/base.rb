@@ -35,7 +35,7 @@ module Bodega
       end
 
       def location_for(location_object)
-        Location.new(zip: location_object.postal_code)
+        Location.new(country: Bodega.config.shipping.origin.country, zip: location_object.postal_code)
       end
 
       def origin
@@ -44,18 +44,20 @@ module Bodega
 
       def packages
         @packages ||= [].tap do |packages|
-          order.products.each do |product|
-            packages.push(package_for(product)) if shippable?(product)
+          order.order_products.each do |order_product|
+            packages.push(package_for(order_product)) if shippable?(order_product.product)
           end
         end
       end
 
-      def package_for(product)
-        Package.new(
-          product.weight,
-          product.dimensions,
-          units: Bodega.config.shipping.units
-        )
+      def package_for(order_product)
+        product = order_product.product
+        weight = product.weight * order_product.quantity
+
+        dimensions = product.dimensions
+        dimensions[2] = dimensions[2] * order_product.quantity
+
+        Package.new(weight, dimensions, units: Bodega.config.shipping.units)
       end
 
       def shippable?(product)
