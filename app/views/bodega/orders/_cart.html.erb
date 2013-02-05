@@ -13,7 +13,7 @@
       <% if current_order.ready? -%>
       <tr>
         <td class="product-total-label" colspan="3"><%= t 'bodega.total' %></td>
-        <td class="product-total"><%= humanized_money_with_symbol current_order.total %></td>
+        <td class="product-total" nowrap="nowrap"><%= humanized_money_with_symbol current_order.total %></td>
         <td></td>
       </tr>
       <% end -%>

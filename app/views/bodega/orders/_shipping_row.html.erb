@@ -1,8 +1,6 @@
 <tr>
-  <td class="shipping-postal-code">
+  <td class="shipping-postal-code" colspan="3">
     <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
-  </td>
-  <td class="shipping-rates" colspan="2">
     <% if current_order.postal_code.present? -%>
     <%= form.select :shipping_rate_code, current_order.shipping_rate_options %>
     <% end -%>
