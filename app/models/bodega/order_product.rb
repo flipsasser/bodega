@@ -9,6 +9,8 @@ module Bodega
     belongs_to :order, class_name: 'Bodega::Order'
     belongs_to :product, polymorphic: true
 
+    default_scope order(:created_at)
+
     delegate :keep_stock?, :price, to: :product
 
     monetize :total_cents

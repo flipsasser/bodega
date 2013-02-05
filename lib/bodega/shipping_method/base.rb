@@ -45,19 +45,18 @@ module Bodega
       def packages
         @packages ||= [].tap do |packages|
           order.order_products.each do |order_product|
-            packages.push(package_for(order_product)) if shippable?(order_product.product)
+            packages.push(*packages_for(order_product)) if shippable?(order_product.product)
           end
         end
       end
 
-      def package_for(order_product)
+      def packages_for(order_product)
         product = order_product.product
-        weight = product.weight * order_product.quantity
-
-        dimensions = product.dimensions
-        dimensions[2] = dimensions[2] * order_product.quantity
-
-        Package.new(weight, dimensions, units: Bodega.config.shipping.units)
+        packages = []
+        order_product.quantity.times do
+          packages.push(Package.new(weight, dimensions, units: Bodega.config.shipping.units))
+        end
+        packages
       end
 
       def shippable?(product)
