@@ -4,7 +4,7 @@ module Bodega
   class Order < ActiveRecord::Base
     self.table_name = :bodega_orders
 
-    attr_accessible :order_products_attributes, :street_1, :street_2, :city, :state, :postal_code, :shipping_rate_code
+    attr_accessible :order_products_attributes, :postal_code, :shipping_rate_code
 
     before_create :set_identifier
     before_save :set_shipping_rates, if: :postal_code_changed?
@@ -111,10 +111,11 @@ module Bodega
 
     protected
     def calculate_shipping
-      self.shipping = 0
       if shipping_rate_code
         self.shipping_rate_name = shipping_rates[shipping_rate_code][:name]
         self.shipping = shipping_rates[shipping_rate_code][:price] / 100.0
+      else
+        self.shipping = 0
       end
     end
 
@@ -139,7 +140,13 @@ module Bodega
     end
 
     def set_shipping_rates
-      self.shipping_rates = postal_code.present? ? shipping_method.rates : nil
+      if postal_code.present?
+        self.shipping_rates = shipping_method.rates
+        self.shipping_rate_code = shipping_rate_options.values.first
+        calculate_shipping
+      else
+        self.shipping_rates = self.shipping_rate_code = nil
+      end
       @new_shipping_rates = true
     end
 

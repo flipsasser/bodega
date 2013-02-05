@@ -35,12 +35,7 @@ module Bodega
       end
 
       def location_for(location_object)
-        Location.new(
-          city: location_object.city,
-          state: location_object.state,
-          zip: location_object.postal_code,
-          country: location_object.country
-        )
+        Location.new(zip: location_object.postal_code)
       end
 
       def origin

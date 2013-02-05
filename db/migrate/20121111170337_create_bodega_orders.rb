@@ -11,12 +11,7 @@ class CreateBodegaOrders < ActiveRecord::Migration
       t.string :shipping_rate_name, limit: 50
       t.text :shipping_rates
       t.string :tracking_number
-      t.string :street_1, limit: 60
-      t.string :street_2, limit: 60
-      t.string :city, limit: 60
-      t.string :state, limit: 3
       t.string :postal_code, limit: 11
-      t.string :country, limit: 3
       t.money :shipping
       t.money :tax
       t.money :total
