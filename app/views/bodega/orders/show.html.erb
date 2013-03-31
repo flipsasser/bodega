@@ -18,6 +18,19 @@
       </td>
     </tr>
     <% end -%>
+
+    <tr>
+      <td class="product-name">
+        <%= @order.shipping_rate_name %>
+      </td>
+      <td class="price">
+        <%= humanized_money_with_symbol @order.shipping %>
+      </td>
+      <td class="subtotal">
+        <%= humanized_money_with_symbol @order.shipping %>
+      </td>
+    </tr>
+
     <tr>
       <td colspan="2"></td>
       <td><%= humanized_money_with_symbol @order.total %></td>

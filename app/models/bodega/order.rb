@@ -5,6 +5,7 @@ module Bodega
     self.table_name = :bodega_orders
 
     attr_accessible :order_products_attributes, :postal_code, :shipping_rate_code
+    attr_accessible :street_1, :street_2, :city, :state
 
     before_create :set_identifier
     before_save :set_shipping_rates, if: :set_shipping_rates?
@@ -85,6 +86,10 @@ module Bodega
       end
     end
 
+    def state_options
+      US_STATES.values
+    end
+
     def subtotal
       order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
     end
@@ -160,5 +165,62 @@ module Bodega
     def set_total
       self.total = subtotal + tax + shipping
     end
+  end
+
+
+  US_STATES = ActiveSupport::OrderedHash.new
+  Hash['Alabama', 'AL',
+    'Alaska', 'AK',
+    'Arizona', 'AZ',
+    'Arkansas', 'AR',
+    'California', 'CA',
+    'Colorado', 'CO',
+    'Connecticut', 'CT',
+    'Delaware', 'DE',
+    'District Of Columbia', 'DC',
+    'Florida', 'FL',
+    'Georgia', 'GA',
+    'Hawaii', 'HI',
+    'Idaho', 'ID',
+    'Illinois', 'IL',
+    'Indiana', 'IN',
+    'Iowa', 'IA',
+    'Kansas', 'KS',
+    'Kentucky', 'KY',
+    'Louisiana', 'LA',
+    'Maine', 'ME',
+    'Maryland', 'MD',
+    'Massachusetts', 'MA',
+    'Michigan', 'MI',
+    'Minnesota', 'MN',
+    'Mississippi', 'MS',
+    'Missouri', 'MO',
+    'Montana', 'MT',
+    'Nebraska', 'NE',
+    'Nevada', 'NV',
+    'New Hampshire', 'NH',
+    'New Jersey', 'NJ',
+    'New Mexico', 'NM',
+    'New York', 'NY',
+    'North Carolina', 'NC',
+    'North Dakota', 'ND',
+    'Ohio', 'OH',
+    'Oklahoma', 'OK',
+    'Oregon', 'OR',
+    'Pennsylvania', 'PA',
+    'Rhode Island', 'RI',
+    'South Carolina', 'SC',
+    'South Dakota', 'SD',
+    'Tennessee', 'TN',
+    'Texas', 'TX',
+    'Utah', 'UT',
+    'Vermont', 'VT',
+    'Virginia', 'VA',
+    'Washington', 'WA',
+    'West Virginia', 'WV',
+    'Wisconsin', 'WI',
+    'Wyoming', 'WY'
+  ].sort.each do |key, value|
+    US_STATES[key] = value
   end
 end

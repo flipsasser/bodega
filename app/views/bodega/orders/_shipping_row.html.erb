@@ -1,11 +1,24 @@
+<% unless current_order.payment_method.shipping? -%>
+<tr id="bodega-shipping-address">
+  <td colspan="5">
+    <%= form.text_field :street_1, placeholder: t('bodega.street_1') %>
+    <%= form.text_field :street_2, placeholder: t('bodega.street_2') %>
+    <%= form.text_field :city, placeholder: t('bodega.city') %>
+    <%= form.select :state, current_order.state_options, {}, prompt: t('bodega.state') %>
+    <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
+  </td>
+</tr>
+<% end -%>
 <tr>
   <td class="shipping-postal-code" colspan="3">
+    <% if current_order.payment_method.shipping? -%>
     <%= form.text_field :postal_code, placeholder: t('bodega.postal_code') %>
+    <% end -%>
     <% if current_order.postal_code.present? -%>
     <%= form.select :shipping_rate_code, current_order.shipping_rate_options %>
     <% end -%>
   </td>
   <td class="shipping-total" colspan="2">
-    <%= humanized_money_with_symbol current_order.shipping %>
+    <%= humanized_money_with_symbol current_order.shipping if current_order.ready? %>
   </td>
 </tr>

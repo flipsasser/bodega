@@ -23,6 +23,10 @@ module Bodega
         ).id
       end
 
+      def shipping?
+        false
+      end
+
       protected
       def client
         ::Paypal.sandbox! if Bodega.config.test_mode

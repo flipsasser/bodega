@@ -18,6 +18,12 @@ module Bodega
       def initialize(order)
         self.order = order
       end
+
+      # Does the payment method provide shipping details? If not, they'll
+      # be editable at checkout.
+      def shipping?
+        true
+      end
     end
   end
 end
