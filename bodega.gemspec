@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.4.8"
+  s.version = "0.4.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
@@ -33,7 +33,9 @@ Gem::Specification.new do |s|
     "app/models/bodega/product.rb",
     "app/views/bodega/orders/_cart.html.erb",
     "app/views/bodega/orders/_cart_row.html.erb",
+    "app/views/bodega/orders/_paypal.html.erb",
     "app/views/bodega/orders/_shipping_row.html.erb",
+    "app/views/bodega/orders/_stripe.html.erb",
     "app/views/bodega/orders/edit.html.erb",
     "app/views/bodega/orders/new.html.erb",
     "app/views/bodega/orders/show.html.erb",
@@ -48,6 +50,7 @@ Gem::Specification.new do |s|
     "lib/bodega/payment_method.rb",
     "lib/bodega/payment_method/base.rb",
     "lib/bodega/payment_method/paypal.rb",
+    "lib/bodega/payment_method/stripe.rb",
     "lib/bodega/shipping_method.rb",
     "lib/bodega/shipping_method/base.rb",
     "lib/bodega/shipping_method/ups.rb",
