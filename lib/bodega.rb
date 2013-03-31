@@ -11,12 +11,14 @@ module Bodega
   option :customer_method, :current_user
   option :max_quantity, 1000
 
+  option :store_name, "Store name (override in Bodega.config.store_name)"
+
   # Auto-detect payment method. If a user has the Paypal gem installed,
   # it'll use that. If a user has the Plinq gem installed, it'll use that.
   # Otherwise, it'll be all, "HEY I NEED A PAYMENT METHOD" when checkout
   # starts.
   option :payment_method, lambda {
-    defined?(::Plinq) ? :plinq : defined?(::Paypal) ? :paypal : raise("No payment method detected. Please set one using `Bodega.config.payment_method=`")
+    defined?(::Plinq) ? :plinq : defined?(::Paypal) ? :paypal : defined?(::Stripe) ? :stripe : raise("No payment method detected. Please set one using `Bodega.config.payment_method=`")
   }
 
   # Defaults to no shipping. Change to :fedex, :ups, or :usps and add

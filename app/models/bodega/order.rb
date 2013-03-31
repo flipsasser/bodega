@@ -89,6 +89,10 @@ module Bodega
       order_products.inject(Money.new(0)) {|sum, order_product| sum += order_product.subtotal }
     end
 
+    def summary
+      order_products.map(&:quantity_and_name).to_sentence
+    end
+
     def to_param
       identifier
     end

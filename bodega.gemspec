@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-02-05"
+  s.date = "2013-03-31"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -65,7 +65,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/flipsasser/bodega"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.25"
   s.summary = "Bodega adds checkout logic to any model in your app!"
 
   if s.respond_to? :specification_version then
@@ -73,12 +73,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 3.2.11"])
+      s.add_runtime_dependency(%q<addressabler>, [">= 0"])
       s.add_runtime_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_runtime_dependency(%q<maintain>, [">= 0"])
       s.add_runtime_dependency(%q<money-rails>, [">= 0"])
     else
       s.add_dependency(%q<activerecord>, [">= 3.2.11"])
+      s.add_dependency(%q<addressabler>, [">= 0"])
       s.add_dependency(%q<configurator2>, [">= 0.1.3"])
       s.add_dependency(%q<i18n>, [">= 0"])
       s.add_dependency(%q<maintain>, [">= 0"])
@@ -86,6 +88,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<activerecord>, [">= 3.2.11"])
+    s.add_dependency(%q<addressabler>, [">= 0"])
     s.add_dependency(%q<configurator2>, [">= 0.1.3"])
     s.add_dependency(%q<i18n>, [">= 0"])
     s.add_dependency(%q<maintain>, [">= 0"])

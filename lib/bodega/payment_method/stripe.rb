@@ -1,22 +1,26 @@
 require 'bodega/payment_method/base'
+require 'addressabler'
 
 module Bodega
   module PaymentMethod
-    class Paypal < Base
-      options :username, :password, :signature
+    class Stripe < Base
+      options :secret_key, :publishable_key
 
+      # Redirect to /cart/complete?stripe=tokenToVerifyPayment
       def checkout_url(success_url, cancel_url, params = {})
-        response = client.setup(request, success_url, cancel_url)
-        response.redirect_uri
+        uri = Addressable::URI.heuristic_parse(success_url)
+        uri.query_hash[:stripe] = params[:stripe]
+        uri.to_s
       end
 
       def complete!(options = {})
-        response = client.checkout!(
-          options[:token],
-          options[:PayerID],
-          request
-        )
-        response.payment_info.last.transaction_id
+        ::Stripe.api_key = Bodega.config.stripe.secret_key
+        ::Stripe::Charge.create(
+          amount: order.total_cents,
+          currency: 'usd',
+          card: options[:stripe],
+          description: order.summary
+        ).id
       end
 
       protected
@@ -32,7 +36,7 @@ module Bodega
       def request
         @request ||= ::Paypal::Payment::Request.new(
           amount: order.total.to_f,
-          description: order.summary,
+          description: order.order_products.map(&:quantity_and_name).to_sentence,
           items: order.order_products.map {|order_product|
             {
               name: order_product.name,

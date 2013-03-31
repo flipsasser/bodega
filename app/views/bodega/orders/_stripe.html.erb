@@ -1,0 +1,24 @@
+<%= javascript_include_tag 'https://checkout.stripe.com/v2/checkout.js' %>
+<script type="text/javascript">
+  $('#bodega-checkout').click(function(event) {
+    event.preventDefault();
+    var button = $(this);
+    var form = button.parents('form');
+
+    var token = function(response) {
+      button.attr('name', '');
+      input = $('<input type="hidden" name="stripe" />').val(response.id);
+      form.append('<input type="hidden" name="checkout" value="1" />');
+      form.append(input).submit();
+    };
+
+    StripeCheckout.open({
+      key: <%= Bodega.config.stripe.publishable_key.inspect.html_safe %>,
+      amount: <%= current_order.total_cents %>,
+      name: <%= Bodega.config.store_name.inspect.html_safe %>,
+      description: <%= current_order.summary.inspect.html_safe %>,
+      panelLabel: 'Confirm:',
+      token: token
+    });
+  });
+</script>

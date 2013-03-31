@@ -7,7 +7,7 @@ module Bodega
 
       attr_accessor :options, :order
 
-      def checkout_url(success_url, cancel_url)
+      def checkout_url(success_url, cancel_url, params = {})
         raise "Implement #{self.class.name}#checkout_url"
       end
 
