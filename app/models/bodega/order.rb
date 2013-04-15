@@ -37,7 +37,7 @@ module Bodega
         self.save!
         begin
           self.payment_id = payment_method.complete!(options)
-          self.save
+          self.save!
         rescue Exception
           raise ActiveRecord::Rollback
         end

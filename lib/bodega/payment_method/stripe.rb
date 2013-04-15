@@ -8,19 +8,25 @@ module Bodega
 
       # Redirect to /cart/complete?stripe=tokenToVerifyPayment
       def checkout_url(success_url, cancel_url, params = {})
-        uri = Addressable::URI.heuristic_parse(success_url)
-        uri.query_hash[:stripe] = params[:stripe]
+        if params[:stripe]
+          uri = Addressable::URI.heuristic_parse(success_url)
+          uri.query_hash[:stripe] = params[:stripe]
+        else
+          uri = Addressable::URI.heuristic_parse(cancel_url)
+          uri.query_hash[:stripe] = 'yes'
+        end
         uri.to_s
       end
 
       def complete!(options = {})
         ::Stripe.api_key = Bodega.config.stripe.secret_key
-        ::Stripe::Charge.create(
+        charge = ::Stripe::Charge.create(
           amount: order.total_cents,
           currency: 'usd',
           card: options[:stripe],
           description: order.summary
-        ).id
+        )
+        charge.id
       end
 
       def shipping?
