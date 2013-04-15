@@ -12,6 +12,7 @@ module Bodega
   option :max_quantity, 1000
 
   option :store_name, "Store name (override in Bodega.config.store_name)"
+  option :collect_email, false
 
   # Auto-detect payment method. If a user has the Paypal gem installed,
   # it'll use that. If a user has the Plinq gem installed, it'll use that.

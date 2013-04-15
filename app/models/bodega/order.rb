@@ -4,6 +4,7 @@ module Bodega
   class Order < ActiveRecord::Base
     self.table_name = :bodega_orders
 
+    attr_accessible :email
     attr_accessible :order_products_attributes, :postal_code, :shipping_rate_code
     attr_accessible :street_1, :street_2, :city, :state
 
@@ -30,6 +31,10 @@ module Bodega
     monetize :total_cents
 
     serialize :shipping_rates
+
+    if Bodega.config.collect_email
+      validates_presence_of :email
+    end
 
     def finalize!(options)
       self.class.transaction do

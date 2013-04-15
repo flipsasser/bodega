@@ -7,6 +7,7 @@
       <%= form.fields_for(:order_products) do |order_product_form| -%>
       <%= render partial: 'cart_row', locals: {form: order_product_form, order_product: order_product_form.object} %>
       <% end =%>
+      <%= render partial: 'email_row', locals: {form: form} if Bodega.config.collect_email %>
       <%= render partial: 'shipping_row', locals: {form: form} if current_order.shipping_method %>
     </tbody>
     <tfoot>
