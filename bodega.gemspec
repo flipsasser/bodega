@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bodega"
-  s.version = "0.4.10"
+  s.version = "0.4.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Flip Sasser"]
-  s.date = "2013-03-31"
+  s.date = "2013-04-24"
   s.description = "Bodega adds checkout logic to any model in your app!"
   s.email = "flip@x451.com"
   s.extra_rdoc_files = [
@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
     "app/models/bodega/product.rb",
     "app/views/bodega/orders/_cart.html.erb",
     "app/views/bodega/orders/_cart_row.html.erb",
+    "app/views/bodega/orders/_email_row.html.erb",
     "app/views/bodega/orders/_paypal.html.erb",
     "app/views/bodega/orders/_shipping_row.html.erb",
     "app/views/bodega/orders/_stripe.html.erb",
@@ -44,6 +45,7 @@ Gem::Specification.new do |s|
     "config/routes.rb",
     "db/migrate/20121111170337_create_bodega_orders.rb",
     "db/migrate/20121111170420_create_bodega_order_products.rb",
+    "db/migrate/20130415214518_add_email_to_orders.rb",
     "lib/bodega.rb",
     "lib/bodega/engine.rb",
     "lib/bodega/optional.rb",

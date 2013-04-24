@@ -4,7 +4,9 @@ module Bodega
   class Order < ActiveRecord::Base
     self.table_name = :bodega_orders
 
-    attr_accessible :email
+    attr_accessor :checking_out
+
+    attr_accessible :email, :checking_out
     attr_accessible :order_products_attributes, :postal_code, :shipping_rate_code
     attr_accessible :street_1, :street_2, :city, :state
 
@@ -32,9 +34,7 @@ module Bodega
 
     serialize :shipping_rates
 
-    if Bodega.config.collect_email
-      validates_presence_of :email
-    end
+    validates_presence_of :email, if: :require_email?
 
     def finalize!(options)
       self.class.transaction do
@@ -146,6 +146,10 @@ module Bodega
       else
         order_products.detect {|order_product| order_product.identifier == item }
       end
+    end
+
+    def require_email?
+      Bodega.config.collect_email && persisted? && (postal_code_changed? || checking_out)
     end
 
     def set_identifier
