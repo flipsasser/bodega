@@ -6,7 +6,7 @@
 1. Add `gem 'bodega'` to your Gemfile and bundle
 2. Run the install generator: `rails generator bodega:install`
 3. Route to Bodega, like so:
-	  
+
 	```ruby
 	MyApp::Application.routes.draw do
 	  mount Bodega::Engine => 'cart'
@@ -25,34 +25,100 @@ Bodega.config do
 end
 ```
 
-### Options you can configure
+### Options
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Default</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>customer_method</td>
-			<td>:current_user</td>
-			<td>The method on the controller used to associate a customer to an order. Set to nil if you don't want to associate customers to orders.</td>
-		</tr>
-		<tr>
-			<td>payment_method</td>
-			<td>:paypal</td>
-			<td>The payment method used to process payments. Currently only Paypal is supported.</td>
 		</tr>
 		<tr>
 			<td>test_mode</td>
 			<td>`true` in test or development modes; `false` otherwise</td>
 			<td>Whether or not to process payments in test mode. Useful for development. You can override this if you need to but generally you won't need to.</td>
 		</tr>
+		<tr>
+			<td>shipping_method</td>
+			<td>:paypal</td>
+			<td>The payment method used to process payments. Currently only Paypal and Stripe are supported.</td>
+		</tr>
 	</tbody>
 </table>
+
+#### Store Name
+
+**Option**: `store_name`
+
+**Default**: Bodega
+
+**Description**: The name of your shop (passed to Stripe and PayPal). Override.
+
+**Example**:
+
+```
+Bodega.config do
+  store_name "Awesome Store"
+end
+```
+
+#### Customer Method
+
+**Option**: `customer_method`
+
+**Default**: `:current_user`"
+
+**Description**: The method on the controller used to associate a customer to an order. Set to `nil` if you don't want to associate customers to orders.
+
+**Example**:
+
+```
+Bodega.config do
+  customer_method :current_customer
+end
+```
+
+#### Payment Method
+
+**Option**: `payment_method`
+
+**Default**: auto-detected
+
+**Description**: The payment method used to process payments. Currently only Paypal and Stripe are supported. Bodega will auto-detect this if you have the Paypal or Stripe gems installed.
+
+**Example**:
+
+```
+Bodega.config do
+  payment_method :stripe
+  stripe secret_key: "YOUR_STRIPE_SECRET_KEY", publishable_key: "YOUR_STRIPE_PUBLISHABLE_KEY"
+end
+```
+
+#### Shipping Method
+
+**Option**: `shipping_method`
+
+**Default**: none
+
+**Description**: The shipping method you use to ship your products. Install the `active_shipping` gem if you need this and then use the `shipping` configuration block.
+
+**Example**:
+
+```
+Bodega.config do
+  shipping_method :ups
+  ups login: "UPS Login", password: "UPS Password", api_key: "UPS API Key"
+  shipping do
+  	units :imperial # Default is metric
+  	origin do
+  	  city "Baltimore"
+  	  state "MD"
+  	  postal_code "21231"
+  	  country "US"
+  	end
+  end
+  states "VA", "MD", "DE", "NJ" # States you ship to
+end
+```
+
+#### Collecting Customer Emails
+
 
 
 ### Sample configuration
@@ -88,7 +154,7 @@ end
 
 Bodega just needs a few database columns and a mixin on a model to make it purchasable. You can do this to models you've already created in your app, or create new product models.
 
-### Pre-existing models 
+### Pre-existing models
 For existing models, you need to run the "productize" generator:
 
 1. `rails generate bodega:productize existing_class_name`
@@ -100,7 +166,7 @@ For existing models, you need to run the "productize" generator:
 	end
 	```
 3. `rake db:migrate`
- 
+
 ### New models
 
 Just generate new models using the "product" generator:
@@ -222,7 +288,7 @@ en:
   bodega:
     product: "Bucket Name"
     price: "Bucket Price"
-    total: "Total Price"    
+    total: "Total Price"
     check_out: "Check Out Now"
     remove: "Remove From Cart"
     update_cart: "Save Cart Changes"
